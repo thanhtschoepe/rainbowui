@@ -36,7 +36,9 @@
 </Story>
 <Story name="networkStatus=ERROR">
 	<Button networkStatus="ERROR" let:networkStatus>
-		<Icon name="x" />
-		<span>Error</span>
+		<div class="flex gap-2 animate-shake">
+			<Icon name="x-circle" />
+			<span>Error</span>
+		</div>
 	</Button>
 </Story>

@@ -48,7 +48,7 @@
 	on:keydown
 	on:keypress
 	{...$$restProps}
-	class={'backlight backlight-off relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light focus:outline-none focus:ring focus:ring-dark-2 focus:dark:ring-light-1 disabled:opacity-50 disabled:pointer-events-none' +
+	class={'backlight relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light focus:outline-none focus:ring focus:ring-dark-2 focus:dark:ring-light-1 disabled:opacity-50 disabled:pointer-events-none ' +
 		$$restProps.class}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}
@@ -69,12 +69,12 @@
 		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 focus:bg-dark-4;
 	}
 	.status-pending {
-		@apply backlight-on pointer-events-none backlight-rainbow after:animate-glow-pulse;
+		@apply pointer-events-none backlight-rainbow after:animate-glow-pulse;
 	}
 	.status-success {
-		@apply backlight-on backlight-success after:animate-shutdown backlight-sm;
+		@apply backlight-success after:animate-shutdown backlight-sm;
 	}
 	.status-error {
-		@apply backlight-on backlight-danger after:animate-shutdown backlight-sm;
+		@apply animate-shake backlight-danger after:animate-shutdown backlight-sm direction-animation-reverse;
 	}
 </style>

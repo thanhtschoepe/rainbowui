@@ -35,28 +35,54 @@
 		@apply bg-gradient-to-tr from-[#e89d1f] to-[#e4e95d];
 	}
 	.backlight {
-		@apply after:transition-all after:duration-1000 relative after:absolute after:top-4 after:left-0 after:-z-50 after:w-full after:h-full after:blur-lg;
-	}
-	.backlight-on {
-		@apply after:opacity-100;
-	}
-	.backlight-off {
-		@apply after:opacity-0;
+		@apply after:transition-all after:duration-1000 relative after:absolute after:top-[15%] after:left-0 after:-z-10 after:w-full after:h-full after:blur-lg;
 	}
 	.backlight-sm {
-		@apply after:scale-90 after:top-2 after:left-0;
+		@apply after:scale-90 after:top-[5%] after:left-0;
 	}
-	.backlight-rainbow {
-		@apply after:bg-gradient-to-r after:from-[#FF0000] after:via-amber-400 after:via-[#12cff3] after:to-[#6ef195];
+	.backlight-rainbow:after {
+		background-image: linear-gradient(90deg, #ff5858, #fff95b, #00ff87, #60efff, #595cff);
 	}
 	.backlight-danger {
-		@apply after:bg-gradient-to-r after:from-[#FF4326] after:via-[#f4762d] after:to-[#ff1d87];
+		@apply after:bg-gradient-to-r after:from-[#ff5858] after:via-[#f4762d] after:to-[#ff1d87];
 	}
 	.backlight-success {
 		@apply after:bg-gradient-to-r after:from-[#6eee87] after:to-[#5fc52e];
 	}
 	.backlight:after {
 		background-size: 200% 200%;
+	}
+	.text-gradient-rainbow {
+		-webkit-background-clip: text;
+		background-clip: text;
+		background-image: linear-gradient(120deg, #ff5858, #fff95b, #00ff87, #60efff, #595cff);
+		@apply text-transparent;
+		background-size: 150% 150%;
+	}
+
+	.delay-animation-500 {
+		animation-delay: 500ms;
+	}
+	.delay-animation-750 {
+		animation-delay: 750ms;
+	}
+	.delay-animation-1000 {
+		animation-delay: 1000ms;
+	}
+	.fill-mode {
+		animation-fill-mode: forwards;
+	}
+	.direction-animation {
+		animation-direction: forwards;
+	}
+	.direction-animation-reverse {
+		animation-direction: reverse !important;
+	}
+	.direction-animation-alternate {
+		animation-direction: alternate;
+	}
+	.direction-animation-alternate-reverse {
+		animation-direction: alternate-reverse;
 	}
 }
 

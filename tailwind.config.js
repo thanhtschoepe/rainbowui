@@ -71,12 +71,18 @@ export default {
 					'75%, 80%': { opacity: '0.3' },
 					'85%, 90%': { opacity: '0.7' },
 					'95%, 100%': { opacity: '0' }
+				},
+				shake: {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
+					'20%, 40%, 60%, 80%': { transform: 'translateX(2px)' }
 				}
 			},
 			animation: {
-				glow: 'animateGlow 4s ease infinite',
+				glow: 'animateGlow 4s linear infinite',
 				'glow-pulse': 'animateGlow 1s ease-out infinite',
-				shutdown: 'shutdown 4s ease-in-out forwards'
+				shutdown: 'shutdown 4s ease-in-out forwards',
+				shake: 'shake 1s ease-in-out'
 			}
 		}
 	},

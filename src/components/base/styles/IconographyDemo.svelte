@@ -27,12 +27,20 @@
 				variant="icon"
 				on:pointerup={() => copy(icon)}
 				on:keyup={(evt) => (evt.code === 'Space' ? copy(icon) : null)}
-				class={'flex w-full flex-col items-center mx-auto' +
+				class={'group flex w-full flex-col items-center mx-auto' +
 					(copiedStatus[icon] === 'SUCCESS' ? 'text-success' : '')}
 				let:networkStatus
 			>
-				<Icon name={networkStatus === 'SUCCESS' ? 'check-square' : icon} class="w-6 h-6" />
-				<p class="typo-caption text-dark-1">{icon}</p>
+				<div
+					class="bg-transparent backlight group-hover:backlight-rainbow group-hover:after:animate-glow"
+				>
+					<Icon
+						name={networkStatus === 'SUCCESS' ? 'check-square' : icon}
+						class="w-6 h-6 bg-transparent group-hover:animate-pulse"
+					/>
+				</div>
+
+				<p class="typo-caption text-dark-1 group-hover:text-dark">{icon}</p>
 			</Button>
 		</div>
 	{/each}
