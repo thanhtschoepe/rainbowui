@@ -58,4 +58,7 @@
 	});
 </script>
 
-<i data-feather={name} class={$$props.class + ' stroke-dark dark:stroke-light'} />
+<i
+	data-feather={name}
+	class={$$props.class ?? ' ' + 'inline stroke-dark dark:stroke-light h-5 w-5'}
+/>

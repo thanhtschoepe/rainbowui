@@ -44,8 +44,11 @@
 	on:pointerenter
 	on:pointerleave
 	on:pointermove
+	on:keyup
+	on:keydown
+	on:keypress
 	{...$$restProps}
-	class={'relative rounded-sm typo-body2 text-dark dark:text-light focus:outline-none focus:ring focus:ring-dark-2 focus:dark:ring-light-1 disabled:opacity-50 ' +
+	class={'relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light focus:outline-none focus:ring focus:ring-dark-2 focus:dark:ring-light-1 disabled:opacity-50' +
 		$$restProps.class}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}
@@ -56,7 +59,7 @@
 
 <style lang="postcss">
 	.variant-default {
-		@apply px-4 bg-dark-3 dark:bg-light-3 py-2 hover:bg-dark-2 dark:hover:bg-light-2;
+		@apply px-4 py-3 bg-dark-4 dark:bg-light-3 hover:bg-dark-3 dark:hover:bg-light-2;
 	}
 	.variant-icon {
 		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 focus:bg-dark-4;

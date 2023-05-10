@@ -7,22 +7,31 @@
 		navigator.clipboard.writeText(iconName);
 		copiedStatus[iconName] = 'SUCCESS';
 	};
+	let imgUrl =
+		'https://images.unsplash.com/photo-1610571273412-f43a878c1550?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80';
 </script>
 
-<h2 class="typo-h2">Iconography</h2>
-<div class="grid grid-cols-4 gap-4 lg:grid-cols-6">
+<h2 class="mb-8 typo-h2">Iconography</h2>
+<div
+	class="relative grid grid-cols-4 gap-4 p-8 overflow-hidden border rounded-md border-dark-md lg:grid-cols-6"
+>
+	<picture class="absolute inset-0 blur-md -z-10">
+		<source srcset={imgUrl} type="image/jpg" />
+		<img src={imgUrl} alt="Nasa img" class="w-full" />
+	</picture>
 	{#each icons as icon (icon)}
 		<div>
 			<Button
 				networkStatus={copiedStatus[icon] ?? 'INITIAL'}
 				variant="icon"
 				on:pointerup={() => copy(icon)}
-				class={'flex flex-col items-center mx-auto ' +
+				on:keyup={(evt) => (evt.code === 'Space' ? copy(icon) : null)}
+				class={'flex w-full flex-col items-center mx-auto' +
 					(copiedStatus[icon] === 'SUCCESS' ? 'text-success' : '')}
 				let:networkStatus
 			>
 				<Icon name={networkStatus === 'SUCCESS' ? 'check-square' : icon} class="w-6 h-6" />
-				<p class="pt-2 typo-caption text-dark-1">{icon}</p>
+				<p class="typo-caption text-dark-1">{icon}</p>
 			</Button>
 		</div>
 	{/each}

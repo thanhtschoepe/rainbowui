@@ -36,6 +36,7 @@ export default {
 			borderRadius: {
 				none: '0',
 				0: '0',
+				xs: '0.75rem',
 				DEFAULT: '1rem',
 				sm: '1rem',
 				md: '2rem',
