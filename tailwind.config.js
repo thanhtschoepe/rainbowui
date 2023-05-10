@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+	important: true,
 	content: ['./src/**/*.{html,js,svelte,ts,stories}'],
 	theme: {
 		extend: {
@@ -43,6 +44,39 @@ export default {
 				lg: '3rem',
 				xl: '4rem',
 				full: '9999px'
+			},
+			keyframes: {
+				animateGlow: {
+					'0%': { 'background-position': '0% 50%' },
+					'25%': { 'background-position': '50% 100%' },
+					'50%': { 'background-position': '100% 50%' },
+					'75%': { 'background-position': '50% 0%' },
+					'100%': { 'background-position': '0% 50%' }
+				},
+				draw: {
+					'0%': {
+						'stroke-dashoffset': '100'
+					},
+					'50%': {
+						'stroke-dashoffset': 0
+					},
+					'100%': {
+						'stroke-dashoffset': '100'
+					}
+				},
+				shutdown: {
+					'0%, 20%': { opacity: '1' },
+					'40%, 60%': { opacity: '0.7' },
+					'70%': { opacity: '1' },
+					'75%, 80%': { opacity: '0.3' },
+					'85%, 90%': { opacity: '0.7' },
+					'95%, 100%': { opacity: '0' }
+				}
+			},
+			animation: {
+				glow: 'animateGlow 4s ease infinite',
+				'glow-pulse': 'animateGlow 1s ease-out infinite',
+				shutdown: 'shutdown 4s ease-in-out forwards'
 			}
 		}
 	},

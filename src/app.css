@@ -34,4 +34,39 @@
 	.bg-gradient-warning {
 		@apply bg-gradient-to-tr from-[#e89d1f] to-[#e4e95d];
 	}
+	.backlight {
+		@apply after:transition-all after:duration-1000 relative after:absolute after:top-4 after:left-0 after:-z-50 after:w-full after:h-full after:blur-lg;
+	}
+	.backlight-on {
+		@apply after:opacity-100;
+	}
+	.backlight-off {
+		@apply after:opacity-0;
+	}
+	.backlight-sm {
+		@apply after:scale-90 after:top-2 after:left-0;
+	}
+	.backlight-rainbow {
+		@apply after:bg-gradient-to-r after:from-[#FF0000] after:via-amber-400 after:via-[#12cff3] after:to-[#6ef195];
+	}
+	.backlight-danger {
+		@apply after:bg-gradient-to-r after:from-[#FF4326] after:via-[#f4762d] after:to-[#ff1d87];
+	}
+	.backlight-success {
+		@apply after:bg-gradient-to-r after:from-[#6eee87] after:to-[#5fc52e];
+	}
+	.backlight:after {
+		background-size: 200% 200%;
+	}
+}
+
+@layer base {
+	.feather polyline,
+	polygon,
+	path,
+	line,
+	rect,
+	circle {
+		stroke-dasharray: 100;
+	}
 }

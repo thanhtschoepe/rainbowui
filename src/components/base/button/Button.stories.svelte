@@ -22,3 +22,21 @@
 		<span>Add new</span>
 	</Button>
 </Story>
+<Story name="networkStatus=PENDING">
+	<Button networkStatus="PENDING" let:networkStatus>
+		<Icon name="chevron-double-up" class="animate-bounce" />
+		<span>Submitting</span>
+	</Button>
+</Story>
+<Story name="networkStatus=SUCCESS">
+	<Button networkStatus="SUCCESS" let:networkStatus>
+		<Icon name="check" />
+		<span>Done</span>
+	</Button>
+</Story>
+<Story name="networkStatus=ERROR">
+	<Button networkStatus="ERROR" let:networkStatus>
+		<Icon name="x" />
+		<span>Error</span>
+	</Button>
+</Story>

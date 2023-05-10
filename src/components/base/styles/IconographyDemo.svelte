@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Icon, { icons } from '../misc/Icon.svelte';
+	import type { IconName } from '../misc/Icon.svelte';
 	import Button from '../button/Button.svelte';
 
 	let copiedStatus: Record<IconName, 'INITIAL' | 'SUCCESS'> = {};
-	const copy = (iconName) => {
+	const copy = (iconName: IconName) => {
 		navigator.clipboard.writeText(iconName);
 		copiedStatus[iconName] = 'SUCCESS';
 	};
