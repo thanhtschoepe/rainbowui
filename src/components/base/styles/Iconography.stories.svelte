@@ -1,10 +1,10 @@
 <script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-	import Typography from './TypographyDemo.svelte';
+	import IconographyDemo from './IconographyDemo.svelte';
 </script>
 
-<Meta title="styles/Typography" component={Typography} />
+<Meta title="styles/Iconography" component={IconographyDemo} />
 <Template let:args>
-	<Typography />
+	<IconographyDemo />
 </Template>
 <Story name="default" />
