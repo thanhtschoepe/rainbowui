@@ -26,13 +26,16 @@
 		@apply text-base;
 	}
 	.bg-gradient-danger {
-		@apply bg-gradient-to-tr from-[#FF4326] to-[#BC0F09];
+		@apply bg-gradient-to-r from-[#ff5858] via-[#f4762d] to-[#ff1d87];
 	}
 	.bg-gradient-success {
-		@apply bg-gradient-to-tr from-[#00ff87] to-[#60efff];
+		@apply bg-gradient-to-tr from-[#9bf8f4] to-[#a9ff68];
 	}
 	.bg-gradient-warning {
 		@apply bg-gradient-to-tr from-[#e89d1f] to-[#e4e95d];
+	}
+	.bg-gradient-rainbow {
+		background: linear-gradient(90deg, #ff5858, #fff95b, #00ff87, #60efff, #595cff);
 	}
 	.backlight {
 		@apply after:transition-all after:duration-1000 relative after:absolute after:top-[15%] after:left-0 after:-z-10 after:w-full after:h-full after:blur-lg;
@@ -40,24 +43,25 @@
 	.backlight-sm {
 		@apply after:scale-90 after:top-[5%] after:left-0;
 	}
-	.backlight-rainbow:after {
-		background-image: linear-gradient(90deg, #ff5858, #fff95b, #00ff87, #60efff, #595cff);
+	.backlight-rainbow {
+		@apply after:bg-gradient-rainbow;
 	}
 	.backlight-danger {
-		@apply after:bg-gradient-to-r after:from-[#ff5858] after:via-[#f4762d] after:to-[#ff1d87];
+		@apply after:bg-gradient-danger;
 	}
 	.backlight-success {
-		@apply after:bg-gradient-to-r after:from-[#6eee87] after:to-[#5fc52e];
+		@apply after:bg-gradient-success;
 	}
 	.backlight:after {
 		background-size: 200% 200%;
 	}
-	.text-gradient-rainbow {
+	.text-gradient {
 		-webkit-background-clip: text;
 		background-clip: text;
-		background-image: linear-gradient(120deg, #ff5858, #fff95b, #00ff87, #60efff, #595cff);
-		@apply text-transparent;
-		background-size: 150% 150%;
+		color: transparent;
+	}
+	.text-gradient-rainbow {
+		@apply text-transparent bg-gradient-rainbow;
 	}
 
 	.delay-animation-500 {
@@ -83,6 +87,18 @@
 	}
 	.direction-animation-alternate-reverse {
 		animation-direction: alternate-reverse;
+	}
+	.corner-glow {
+		@apply after:opacity-0 relative after:transition-all after:duration-1000 after:absolute after:bottom-0 after:right-0 after:-z-10 after:w-[4rem] after:h-[2rem] after:blur-lg focus-within:after:opacity-100;
+	}
+
+	input.spin-button-hidden::-webkit-outer-spin-button,
+	input.spin-button-hidden::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input.spin-button-hidden[type='number'] {
+		-moz-appearance: textfield;
 	}
 }
 
