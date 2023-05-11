@@ -32,7 +32,7 @@
 				let:networkStatus
 			>
 				<div
-					class="bg-transparent backlight group-hover:backlight-rainbow group-hover:after:animate-glow"
+					class="bg-transparent backlight backlight-full group-hover:backlight-rainbow group-hover:after:animate-glow"
 				>
 					<Icon
 						name={networkStatus === 'SUCCESS' ? 'check-square' : icon}

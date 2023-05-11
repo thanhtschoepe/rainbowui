@@ -7,20 +7,25 @@
 	export let networkStatus: 'INITIAL' | 'PENDING' | 'SUCCESS' | 'ERROR' = 'INITIAL';
 	export let revertDuration: number = 3000; // Default revert duration in milliseconds
 
+	let localNetworkStatus = networkStatus;
+	$: {
+		localNetworkStatus = networkStatus;
+	}
+
 	const dispatch = createEventDispatcher();
 	let timeoutId: ReturnType<typeof setTimeout>;
 
 	function forwardEvent(type: string, event: Event) {
-		if (networkStatus !== 'PENDING' || type === 'blur' || type === 'focus') {
+		if (localNetworkStatus !== 'PENDING' || type === 'blur' || type === 'focus') {
 			dispatch(type, event);
 		}
 	}
 
 	function updateNetworkStatus() {
-		if (networkStatus === 'SUCCESS' || networkStatus === 'ERROR') {
+		if (localNetworkStatus === 'SUCCESS' || localNetworkStatus === 'ERROR') {
 			clearTimeout(timeoutId);
 			timeoutId = setTimeout(() => {
-				networkStatus = 'INITIAL';
+				localNetworkStatus = 'INITIAL';
 			}, revertDuration);
 		}
 	}
@@ -48,33 +53,36 @@
 	on:keydown
 	on:keypress
 	{...$$restProps}
-	class={'backlight relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light focus:outline-none focus:ring focus:ring-dark-2 focus:dark:ring-light-1 disabled:opacity-50 disabled:pointer-events-none ' +
+	class={'backlight outline-none relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light disabled:opacity-50 disabled:pointer-events-none ' +
 		$$restProps.class}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}
-	class:backlight-off={networkStatus === 'INITIAL'}
-	class:status-pending={networkStatus === 'PENDING'}
-	class:status-success={networkStatus === 'SUCCESS'}
-	class:status-error={networkStatus === 'ERROR'}
-	aria-disabled={networkStatus === 'PENDING'}
+	class:status-pending={localNetworkStatus === 'PENDING'}
+	class:status-success={localNetworkStatus === 'SUCCESS'}
+	class:status-error={localNetworkStatus === 'ERROR'}
+	class:status-initial={localNetworkStatus === 'INITIAL'}
+	aria-disabled={localNetworkStatus === 'PENDING'}
 >
-	<slot {networkStatus} />
+	<slot networkStatus={localNetworkStatus} />
 </button>
 
 <style lang="postcss">
 	.variant-default {
-		@apply px-4 py-3 bg-dark-4 dark:bg-light-3 hover:bg-dark-3 dark:hover:bg-light-2;
+		@apply px-4 py-3 bg-dark-4 dark:bg-light-3 hover:bg-dark-3 dark:hover:bg-light-2 focus:bg-dark-3;
 	}
 	.variant-icon {
 		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 focus:bg-dark-4;
 	}
+	.status-initial {
+		@apply backlight-for-focus focus:backlight-corner-br focus:after:bg-gradient-rainbow;
+	}
 	.status-pending {
-		@apply pointer-events-none backlight-rainbow after:animate-glow-pulse;
+		@apply backlight-full pointer-events-none after:bg-gradient-rainbow after:animate-glow-pulse;
 	}
 	.status-success {
-		@apply backlight-success after:animate-shutdown backlight-sm;
+		@apply backlight-full backlight-success after:animate-shutdown backlight-full-sm;
 	}
 	.status-error {
-		@apply animate-shake backlight-danger after:animate-shutdown backlight-sm direction-animation-reverse;
+		@apply backlight-full animate-shake backlight-danger after:animate-shutdown backlight-full-sm direction-animation-reverse;
 	}
 </style>

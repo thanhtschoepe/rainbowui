@@ -3,7 +3,7 @@
 </script>
 
 <fieldset
-	class={'group inline-flex gap-2 items-center px-4 py-2 corner-glow  focus-within:border-dark-2 dark:bg-light-5 rounded typo-body text-dark disabled:pointer-events-none disabled:opacity-50'}
+	class={'group inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br dark:bg-light-5 rounded typo-body text-dark disabled:pointer-events-none disabled:opacity-50 after:opacity-0 focus-within:after:opacity-100'}
 	disabled={$$props.disabled}
 	invalid={$$props.invalid}
 	class:invalid={$$props.invalid}

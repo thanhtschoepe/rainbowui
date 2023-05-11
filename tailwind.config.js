@@ -56,11 +56,8 @@ export default {
 					'0%': {
 						'stroke-dashoffset': '100'
 					},
-					'50%': {
-						'stroke-dashoffset': 0
-					},
 					'100%': {
-						'stroke-dashoffset': '100'
+						'stroke-dashoffset': '0'
 					}
 				},
 				shutdown: {
@@ -79,9 +76,10 @@ export default {
 			},
 			animation: {
 				glow: 'animateGlow 4s linear infinite',
-				'glow-pulse': 'animateGlow 1s ease-out infinite',
+				'glow-pulse': 'animateGlow 2s linear infinite',
 				shutdown: 'shutdown 4s ease-in-out forwards',
-				shake: 'shake 1s ease-in-out'
+				shake: 'shake 1s ease-in-out',
+				draw: 'draw 1s ease-in-out forwards'
 			}
 		}
 	},
