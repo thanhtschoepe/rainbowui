@@ -45,7 +45,7 @@
 					class="bg-transparent backlight backlight-full group-hover:backlight-rainbow group-hover:after:animate-glow"
 				>
 					<Icon
-						name={networkStatus === 'SUCCESS' ? 'magnifying-glass-minus' : icon}
+						name={networkStatus === 'SUCCESS' ? 'check' : icon}
 						class="w-6 h-6 bg-transparent group-hover:animate-pulse"
 					/>
 				</div>

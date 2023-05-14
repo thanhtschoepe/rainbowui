@@ -72,6 +72,10 @@ export default {
 					'0%, 100%': { transform: 'translateX(0)' },
 					'10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
 					'20%, 40%, 60%, 80%': { transform: 'translateX(2px)' }
+				},
+				sheen: {
+					'0%': { transform: 'translateX(-150%) skewX(45deg)' },
+					'100%': { transform: 'translateX(150%) skewX(45deg)' }
 				}
 			},
 			animation: {
@@ -79,7 +83,8 @@ export default {
 				'glow-pulse': 'animateGlow 2s linear infinite',
 				shutdown: 'shutdown 4s ease-in-out forwards',
 				shake: 'shake 1s ease-in-out',
-				draw: 'draw 1s ease-in-out forwards'
+				draw: 'draw 1s ease-in-out forwards',
+				sheen: 'sheen 1s ease-in-out infinite'
 			}
 		}
 	},
