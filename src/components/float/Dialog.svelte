@@ -1,0 +1,45 @@
+<script lang="ts">
+	import {
+		Dialog,
+		DialogOverlay,
+		DialogTitle,
+		DialogDescription
+	} from '@rgossiaux/svelte-headlessui';
+
+	import Button from '../base/button/Button.svelte';
+	import Icon from '../base/misc/Icon.svelte';
+	export let open = true;
+	let modal;
+
+	$: if (open) {
+		modal?.showModal();
+	} else {
+		modal?.close();
+	}
+
+	function handlePointerUp(e) {
+		const modalDim = modal.getBoundingClientRect();
+		if (
+			e.clientX < modalDim.left ||
+			e.clientX > modalDim.right ||
+			e.clientY < modalDim.top ||
+			e.clientY > modalDim.bottom
+		) {
+			modal.close();
+		}
+	}
+</script>
+
+<dialog
+	bind:this={modal}
+	on:pointerup={handlePointerUp}
+	class={`relative shadow-2xl p-8 pt-10 rounded-sm bg-light dark:bg-dark backdrop:backdrop-blur-md ${$$restProps.class}`}
+>
+	<div class="absolute top-2 right-2">
+		<Button class="!p-1" variant="icon" on:pointerup={() => modal?.close()}>
+			<Icon name="x-mark" />
+		</Button>
+	</div>
+	<slot />
+	<slot name="footer" />
+</dialog>

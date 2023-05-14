@@ -44,7 +44,7 @@
 		@apply after:top-1/3 after:left-2/3 after:w-[50%] after:max-w-[4rem] after:min-w-[2rem] after:h-[50%] after:min-h-[1rem];
 	}
 	.backlight-for-focus {
-		@apply after:opacity-0 after:blur-3xl focus:after:opacity-100 group-focus:after:opacity-100 focus:after:blur-lg group-focus:after:blur-lg group-focus-within:after:blur-lg focus-within:after:blur-lg;
+		@apply after:opacity-0 after:blur-3xl focus:after:opacity-100 group-focus-within:after:opacity-100 group-focus:after:opacity-100 focus:after:blur-lg group-focus:after:blur-lg group-focus-within:after:blur-lg focus-within:after:blur-lg focus-within:after:opacity-100;
 	}
 	.backlight-full {
 		@apply after:inset-1;
@@ -126,4 +126,24 @@
 	circle {
 		stroke-dasharray: 100;
 	}
+
+	body {
+		@apply text-dark dark:text-light;
+	}
+	* {
+		--scrollbar-foreground: #999
+		--scrollbar-background: #000;
+		/* Foreground, Background */
+		scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+	  }
+	  *::-webkit-scrollbar {
+		width: 0px; /* Mostly for vertical scrollbars */
+		height: 0px; /* Mostly for horizontal scrollbars */
+	  }
+	  *::-webkit-scrollbar-thumb { /* Foreground */
+		background: var(--scrollbar-foreground);
+	  }
+	  *::-webkit-scrollbar-track { /* Background */
+		background: var(--scrollbar-background);
+	  }
 }

@@ -68,16 +68,16 @@
 
 <style lang="postcss">
 	.variant-default {
-		@apply px-4 py-3 bg-dark-4 dark:bg-light-3 hover:bg-dark-3 dark:hover:bg-light-2 focus:bg-dark-3;
+		@apply focus:backlight-corner-br px-4 py-3 bg-dark-4 dark:bg-light-3 hover:bg-dark-3 dark:hover:bg-light-2 focus:bg-dark-3;
 	}
 	.variant-icon {
-		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 focus:bg-dark-4;
+		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 focus:bg-dark-4 after:-inset-2;
 	}
 	.status-initial {
-		@apply backlight-for-focus focus:backlight-corner-br focus:after:bg-gradient-rainbow;
+		@apply backlight-for-focus backlight-rainbow;
 	}
 	.status-pending {
-		@apply backlight-full pointer-events-none after:bg-gradient-rainbow after:animate-glow-pulse;
+		@apply backlight-full pointer-events-none backlight-rainbow after:animate-glow-pulse;
 	}
 	.status-success {
 		@apply backlight-full backlight-success after:animate-shutdown backlight-full-sm;

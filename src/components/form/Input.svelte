@@ -16,7 +16,7 @@
 </script>
 
 <fieldset
-	class={'group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 after:opacity-0 focus-within:after:opacity-100 ' +
+	class={'transition backdrop-blur-sm hover:backdrop-blur-md group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 backlight-for-focus ' +
 		className}
 	{disabled}
 	class:invalid
@@ -30,7 +30,7 @@
 	{/if}
 	<slot name="prefix" />
 	<input
-		class="bg-transparent border-none outline-none peer spin-button-hidden out-of-range:animate-shake min-w-[10rem] invalid:text-red-400"
+		class="bg-transparent border-none outline-none peer spin-button-hidden out-of-range:animate-shake min-w-[10rem] invalid:text-red-400 placeholder:text-dark-2 dark:placeholder:text-light-2"
 		{...$$props}
 		bind:value
 	/>
