@@ -5,6 +5,7 @@
 	export let min: number | undefined;
 	export let max: number | undefined;
 	export let id: string;
+	export let value: string;
 
 	let generatedId = `checkbox-${Math.random().toString(36).substr(2, 10)}`;
 	let className = $$props.class;
@@ -31,6 +32,7 @@
 	<input
 		class="bg-transparent border-none outline-none peer spin-button-hidden out-of-range:animate-shake min-w-[10rem] invalid:text-red-400"
 		{...$$props}
+		bind:value
 	/>
 	<slot name="help">
 		{#if type === 'number' && (min || max)}

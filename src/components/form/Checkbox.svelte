@@ -32,7 +32,7 @@
 		{#if checked}
 			<span class="absolute inline-block">
 				<slot name="icon" {checked}>
-					<Icon name="check" class="stroke-1 stroke-light animate-draw" />
+					<Icon name="check" class="stroke-2 stroke-dark-1 animate-draw" />
 				</slot>
 			</span>
 		{/if}
