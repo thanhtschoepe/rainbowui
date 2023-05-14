@@ -25,7 +25,7 @@
 	/>
 	<label for={id} class="inline-flex items-center cursor-pointer">
 		<span
-			class="backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4"
+			class="backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4 dark:bg-light-4"
 			class:checked
 			class:not-checked={!checked}
 		/>

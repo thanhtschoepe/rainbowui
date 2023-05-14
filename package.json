@@ -70,8 +70,9 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"feather-icons": "^4.29.0",
 		"@babeard/svelte-heroicons": "^2.0.0-rc.0",
-		"@rgossiaux/svelte-headlessui": "^1.0.2"
+		"@rgossiaux/svelte-headlessui": "^1.0.2",
+		"feather-icons": "^4.29.0",
+		"svelte-popperjs": "^1.3.2"
 	}
 }

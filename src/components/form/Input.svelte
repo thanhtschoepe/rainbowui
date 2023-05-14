@@ -16,7 +16,7 @@
 </script>
 
 <fieldset
-	class={'group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br dark:bg-light-5 rounded typo-body text-dark disabled:pointer-events-none disabled:opacity-50 after:opacity-0 focus-within:after:opacity-100 focus-within:shadow-inner ' +
+	class={'group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 after:opacity-0 focus-within:after:opacity-100 ' +
 		className}
 	{disabled}
 	class:invalid
@@ -37,7 +37,7 @@
 	<slot name="help">
 		{#if type === 'number' && (min || max)}
 			<div
-				class="absolute left-2 -bottom-5 typo-caption peer-in-range:text-dark-1 peer-out-of-range:text-gradient peer-out-of-range:bg-gradient-danger"
+				class="absolute left-2 -bottom-5 typo-caption peer-in-range:text-dark-1 peer-out-of-range:text-red-400/80"
 			>
 				{#if min !== undefined}<span class="">Min: {min}</span> {/if}
 				{#if max !== undefined}<span class="">Max: {max}</span> {/if}
@@ -55,6 +55,6 @@
 		@apply backlight-success bg-lime-700/10;
 	}
 	.validity-unset {
-		@apply backlight-rainbow bg-dark-5;
+		@apply backlight-rainbow bg-dark-5 dark:bg-light-5;
 	}
 </style>
