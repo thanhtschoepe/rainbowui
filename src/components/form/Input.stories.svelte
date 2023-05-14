@@ -1,6 +1,7 @@
 <script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Input from './Input.svelte';
+	import Label from './Label.svelte';
 	import Icon from '../base/misc/Icon.svelte';
 </script>
 
@@ -39,7 +40,7 @@
 		autofocus: true
 	}}
 >
-	<Input>
+	<Input id="1">
 		<Icon slot="suffix" name="magnifying-glass" class="inline-block" />
 	</Input>
 </Story>
@@ -67,3 +68,15 @@
 		value: 'valid'
 	}}
 />
+<Story
+	name="with label"
+	args={{
+		type: 'password',
+		autofocus: true
+	}}
+>
+	<Input id="1" class="mt-5">
+		<Label slot="label" for="1" required>Labelled input</Label>
+		<Icon slot="suffix" name="magnifying-glass" class="inline-block" />
+	</Input>
+</Story>

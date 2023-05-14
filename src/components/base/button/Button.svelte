@@ -53,7 +53,7 @@
 	on:keydown
 	on:keypress
 	{...$$restProps}
-	class={'backlight outline-none relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light disabled:opacity-50 disabled:pointer-events-none ' +
+	class={'backlight hover:shadow-lg outline-none relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light disabled:opacity-50 disabled:pointer-events-none ' +
 		$$restProps.class}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}

@@ -352,15 +352,17 @@
 	const isFeatherIcon = featherIcons.includes(name);
 
 	let component: any;
-	if (!isFeatherIcon) {
-		const pascalCase =
-			name
-				.split('-')
-				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-				.join('') + 'Icon';
+	$: {
+		if (!isFeatherIcon) {
+			const pascalCase =
+				name
+					.split('-')
+					.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+					.join('') + 'Icon';
 
-		//@ts-ignore
-		component = HeroIconsOutline[pascalCase];
+			//@ts-ignore
+			component = HeroIconsOutline[pascalCase];
+		}
 	}
 
 	onMount(() => {
