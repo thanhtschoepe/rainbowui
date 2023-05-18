@@ -76,6 +76,13 @@ export default {
 				sheen: {
 					'0%': { transform: 'translateX(-150%) skewX(45deg)' },
 					'100%': { transform: 'translateX(150%) skewX(45deg)' }
+				},
+				jitter: {
+					'0%': { transform: 'translate(0, 0)' },
+					'25%': { transform: 'translate(1px, 1px)' },
+					'50%': { transform: 'translate(-2px, 0)' },
+					'75%': { transform: 'translate(1px, -1px)' },
+					'100%': { transform: 'translate(0, 0)' }
 				}
 			},
 			animation: {
@@ -84,7 +91,8 @@ export default {
 				shutdown: 'shutdown 4s ease-in-out forwards',
 				shake: 'shake 1s ease-in-out',
 				draw: 'draw 1s ease-in-out forwards',
-				sheen: 'sheen 1s ease-in-out infinite'
+				sheen: 'sheen 1s ease-in-out infinite',
+				jitter: 'jitter 0.3s linear infinite'
 			}
 		}
 	},

@@ -4,12 +4,12 @@
 	import Icon from '../misc/Icon.svelte';
 </script>
 
-<Meta title="component/Button" component={Button} />
+<Meta title="components/Button" component={Button} />
 <Template let:args>
 	<Button {...args} />
 </Template>
 <Story name="default">
-	<Button>Click me</Button>
+	<Button on:click={() => alert('Clicked')}>Click me</Button>
 </Story>
 <Story name="with icon">
 	<Button variant="icon">

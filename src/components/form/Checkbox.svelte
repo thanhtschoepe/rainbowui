@@ -25,7 +25,7 @@
 	/>
 	<label for={id} class="inline-flex items-center cursor-pointer">
 		<span
-			class="backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4 dark:bg-light-4"
+			class="after:-inset-2 backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4 dark:bg-light-4"
 			class:checked
 			class:not-checked={!checked}
 		/>
@@ -44,10 +44,10 @@
 
 <style lang="postcss">
 	.checked {
-		@apply after:-inset-2 group-focus-within:backlight-rainbow backlight-success bg-green-400/50;
+		@apply group-focus-within:backlight-rainbow backlight-success bg-green-400/50;
 	}
 	.not-checked {
-		@apply backlight-for-focus backlight-rainbow after:-inset-2;
+		@apply backlight-for-focus backlight-rainbow;
 	}
 	.visually-hidden {
 		@apply absolute w-0 h-0 overflow-hidden;

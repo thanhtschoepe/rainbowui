@@ -45,7 +45,7 @@
 		'cast',
 		'check-circle',
 		'check-square'
-	];
+	] as const;
 	const heroIcons = [
 		'academic-cap',
 		'adjustments-horizontal',
@@ -339,17 +339,19 @@
 		'wrench',
 		'x-circle',
 		'x-mark'
-	];
+	] as const;
 	export const icons = [...new Set([...featherIcons, ...heroIcons])];
-	export type IconName = (typeof featherIcons)[number] & (typeof heroIcons)[number];
+	type FeatherIconType = (typeof featherIcons)[number];
+	type HeroIconType = (typeof heroIcons)[number];
+	export type IconName = FeatherIconType | HeroIconType;
 </script>
 
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import * as HeroIconsOutline from '@babeard/svelte-heroicons/outline';
 
-	export let name: string;
-	const isFeatherIcon = featherIcons.includes(name);
+	export let name: IconName;
+	const isFeatherIcon = featherIcons.includes(name as FeatherIconType);
 
 	let component: any;
 	$: {

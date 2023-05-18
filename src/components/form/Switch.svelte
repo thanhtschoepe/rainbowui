@@ -46,7 +46,7 @@
 	{id}
 >
 	<div
-		class={`block w-5 h-5 transition-all ease-out transform bg-white rounded-full group-hover:scale-110 ${
+		class={`group-active:scale-95 block w-5 h-5 transition-all ease-out transform bg-white rounded-full group-hover:scale-110 ${
 			localNetworkStatus === 'pending' ? 'animate-flash' : ''
 		} ${localNetworkStatus === 'error' ? 'animate-shake' : ''}`}
 	/>

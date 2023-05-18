@@ -33,7 +33,7 @@
 <dialog
 	bind:this={modal}
 	on:pointerup={handlePointerUp}
-	class={`relative shadow-2xl p-8 pt-10 rounded-sm bg-light dark:bg-dark backdrop:backdrop-blur-md ${$$restProps.class}`}
+	class={`outline-none relative shadow-2xl p-8 pt-10 rounded-sm bg-light dark:bg-dark backdrop:backdrop-blur-md ${$$restProps.class}`}
 >
 	<div class="absolute top-2 right-2">
 		<Button class="!p-1" variant="icon" on:pointerup={() => modal?.close()}>
