@@ -12,7 +12,7 @@
 	<Button on:click={() => alert('Clicked')}>Click me</Button>
 </Story>
 <Story name="with icon">
-	<Button variant="icon">
+	<Button variant="icon" label="add">
 		<Icon name="plus" />
 	</Button>
 </Story>

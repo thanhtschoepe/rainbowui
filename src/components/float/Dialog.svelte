@@ -36,7 +36,7 @@
 	class={`outline-none relative shadow-2xl p-8 pt-10 rounded-sm bg-light dark:bg-dark backdrop:backdrop-blur-md ${$$restProps.class}`}
 >
 	<div class="absolute top-2 right-2">
-		<Button class="!p-1" variant="icon" on:pointerup={() => modal?.close()}>
+		<Button class="!p-1" variant="icon" label="close modal" on:pointerup={() => modal?.close()}>
 			<Icon name="x-mark" />
 		</Button>
 	</div>

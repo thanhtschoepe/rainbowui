@@ -3,9 +3,14 @@
 	import { createEventDispatcher } from 'svelte';
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
 
-	export let variant: 'default' | 'icon' | 'emphasis' = 'default';
+	export let variant: 'default' | 'icon' = 'default';
 	export let networkStatus: 'INITIAL' | 'PENDING' | 'SUCCESS' | 'ERROR' = 'INITIAL';
 	export let revertDuration: number = 3000; // Default revert duration in milliseconds
+	export let label: string | undefined;
+
+	if (variant === 'icon' && !label) {
+		throw new Error('Icon buttons should have a label');
+	}
 
 	let localNetworkStatus = networkStatus;
 	$: {
@@ -39,11 +44,7 @@
 	on:blur
 	on:focus
 	on:pointerdown
-	on:click={(event) => {
-		if (event.target === event.currentTarget) {
-			forwardEvent('click', event);
-		}
-	}}
+	on:click
 	on:pointerup={(event) => {
 		forwardEvent('pointerup', event);
 	}}
@@ -62,6 +63,7 @@
 	class:status-error={localNetworkStatus === 'ERROR'}
 	class:status-initial={localNetworkStatus === 'INITIAL'}
 	aria-disabled={localNetworkStatus === 'PENDING'}
+	aria-label={label}
 >
 	<slot networkStatus={localNetworkStatus} />
 </button>

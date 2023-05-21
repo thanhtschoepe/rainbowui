@@ -17,11 +17,19 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { ModifierPhases } from '@popperjs/core';
 
+	// TODO: Add support for multiple selection
+	const multiple = false;
 	export let options: SelectOption[] = [];
-	export let value: (typeof options)[0] | null = null;
-	export let multiple = false;
-	export let creatable = false;
+	export let value: SelectOption | null = null;
+	export let id: string;
+	export let name: string;
 	export let placeholder = 'Select an option';
+
+	$: {
+		if (multiple) {
+			value = Array.isArray(value) ? value : [];
+		}
+	}
 
 	export let placement:
 		| 'bottom-end'
@@ -60,12 +68,13 @@
 	const [popperRef, popperContent] = createPopperActions(popperOptions);
 </script>
 
-<Listbox {value} on:change={(e) => (value = e.detail)} class="relative group" let:open>
+<select {name} {id} class="hidden" {multiple} />
+<Listbox {value} on:change={(e) => (value = e.detail)} class="relative group" let:open {multiple}>
 	<div use:popperRef>
 		<ListboxButton
 			class={`button variant-default status-initial ${
 				open ? 'backlight-corner-br backlight after:blur-sm' : ''
-			}`}
+			} `}
 		>
 			<slot name="value" {value} {open} {placeholder}>
 				{value?.content ?? placeholder}
@@ -73,6 +82,7 @@
 			</slot>
 		</ListboxButton>
 	</div>
+
 	<div use:popperContent={popperOptions} class="inline-flex">
 		<ListboxOptions
 			unmount={false}

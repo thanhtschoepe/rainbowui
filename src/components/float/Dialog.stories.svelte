@@ -28,7 +28,9 @@
 				quibusdam, voluptatum, quod, quia voluptatem voluptas quos asperiores
 			</p>
 			<div slot="footer" class="flex items-center justify-end gap-2 mt-4">
-				<Button variant="icon" class="hover:!bg-red-500/30 text-red-500">Close</Button>
+				<Button variant="icon" class="hover:!bg-red-500/30 text-red-500" label="Close modal"
+					>Close</Button
+				>
 				<Button>Done</Button>
 			</div>
 		</Dialog>

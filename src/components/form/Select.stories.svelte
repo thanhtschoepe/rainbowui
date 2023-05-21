@@ -78,7 +78,7 @@
 	>
 		<div slot="value" let:value let:open let:placeholder class="inline-block">
 			{value?.content ?? placeholder}
-			{#if value?.content.includes('Pizza')}
+			{#if /Pizza/.test(value?.content)}
 				<Icon name="face-smile" class="inline stroke-2 stroke-dark-1" />
 			{:else}
 				<Icon name="box" class="inline stroke-2 stroke-dark-1" />
