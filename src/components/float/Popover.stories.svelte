@@ -1,15 +1,23 @@
 <script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Popover from './Popover.svelte';
+	import Button from '../base/button/Button.svelte';
+	import Icon from '../base/misc/Icon.svelte';
 </script>
 
 <Meta title="components/Popover" component={Popover} />
 
 <Template let:args>
 	<Popover {...args}>
-		<span slot="button">Click me</span>
+		<Button slot="trigger" let:actions {actions}>Open me</Button>
 		<div slot="content">
-			<p>Popover content goes here</p>
+			<div class="flex gap-2">
+				{#each ['archive-box-arrow-down', 'anchor', 'arrow-left', 'arrow-trending-up', 'arrow-up-tray'] as icon}
+					<Button variant="icon">
+						<Icon name={icon} />
+					</Button>
+				{/each}
+			</div>
 		</div>
 	</Popover>
 </Template>

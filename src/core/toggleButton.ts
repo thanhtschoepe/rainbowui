@@ -1,13 +1,13 @@
 import { derived, writable } from 'svelte/store';
-import { applyBehaviors } from './applyBehaviors.ts';
+import { applyBehaviors } from './infra/applyBehaviors.ts';
 import type { AriaAttributes } from 'react';
 import {
 	setAttributes,
 	syncAriaAttributes,
 	applyEventListeners,
 	setAriaRole
-} from './behaviors.ts';
-import { onKey } from './events.ts';
+} from './infra/behaviors.ts';
+import { onKey } from './infra/events.ts';
 
 interface ButtonAria {
 	'aria-pressed': AriaAttributes['aria-pressed'];

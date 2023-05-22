@@ -1,15 +1,18 @@
 <!-- Button.svelte -->
 <script lang="ts">
+	import type { ActionArray } from 'core/infra/forwardActions.ts';
 	import { createEventDispatcher } from 'svelte';
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
+	import { useActions } from '~/core/infra/forwardActions.ts';
 
 	export let variant: 'default' | 'icon' = 'default';
 	export let networkStatus: 'INITIAL' | 'PENDING' | 'SUCCESS' | 'ERROR' = 'INITIAL';
 	export let revertDuration: number = 3000; // Default revert duration in milliseconds
-	export let label: string | undefined;
+	export let label: string | undefined = undefined;
+	export let actions: ActionArray = [];
 
 	if (variant === 'icon' && !label) {
-		throw new Error('Icon buttons should have a label');
+		console.warn('Icon buttons should have a label');
 	}
 
 	let localNetworkStatus = networkStatus;
@@ -34,7 +37,6 @@
 			}, revertDuration);
 		}
 	}
-
 	onMount(updateNetworkStatus);
 	afterUpdate(updateNetworkStatus);
 	onDestroy(() => clearTimeout(timeoutId));
@@ -54,8 +56,9 @@
 	on:keyup
 	on:keydown
 	on:keypress
+	use:useActions={actions}
 	{...$$restProps}
-	class={'button ' + $$restProps.class}
+	class={`button ${$$props.class || ''}`}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}
 	class:status-pending={localNetworkStatus === 'PENDING'}
