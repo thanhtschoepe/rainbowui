@@ -177,7 +177,7 @@
 		@apply backlight transition-all duration-150 hover:shadow-lg outline-none relative inline-flex gap-2 items-center rounded-xs typo-body2 text-dark dark:text-light disabled:opacity-50 disabled:pointer-events-none active:scale-95 active:hover:shadow-sm;
 	  }
 	  .button.variant-default {
-		@apply border border-dark-5 dark:border-light-5 focus:backlight-corner-r px-4 py-3 bg-dark-4 dark:bg-light-4 hover:bg-dark-3 hover:dark:bg-light-3 focus:bg-dark-3 focus:dark:bg-light-3;
+		@apply border border-dark-5 dark:border-light-5  px-4 py-3 bg-dark-4 dark:bg-light-4 hover:bg-dark-3 hover:dark:bg-light-3 focus:bg-dark-3 focus:dark:bg-light-3;
 	  }
 	  
 	  .button.variant-icon {
@@ -186,6 +186,10 @@
 	  
 	  .button.status-initial {
 		@apply backlight-for-focus backlight-rainbow;
+	  }
+
+	  .status-initial.button.variant-default {
+		@apply focus:backlight-corner-r
 	  }
 	  
 	  .button.status-pending {

@@ -1,8 +1,7 @@
 import type { AriaAttributes, AriaRole, Booleanish, EventHandler } from 'svelte/elements';
 import { derived, type Readable } from 'svelte/store';
 import type { Behavior } from './type.ts';
-import { Focus, focusIn, getFocusableElements } from './focus.ts';
-import { invokeOnKey } from './events.ts';
+import { Focus, focusIn } from './focus.ts';
 
 export const setAttributes =
 	<T extends HTMLElement>(attributes: Partial<T>): Behavior =>
@@ -95,7 +94,7 @@ export const setFocus =
 		const coercedToBoolean = typeof focus === 'string' ? focus === 'true' : focus;
 		if (coercedToBoolean) {
 			// may need to wait for svelte to update UI before we can set focus
-			requestAnimationFrame(() => focusIn(self ? [node] : node, Focus.First));
+			requestAnimationFrame(() => focusIn(self ? [node] : node, Focus.FirstSelected));
 		}
 	};
 

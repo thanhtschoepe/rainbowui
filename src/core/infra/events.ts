@@ -9,7 +9,7 @@ export const invokeOnKey =
 	(event: KeyboardEvent) => {
 		if (
 			keys.includes(event.key as Key) ||
-			(keys.includes('CharacterKey') && event.key.match(/(\w|\s)/g))
+			(keys.includes('CharacterKey') && /^[a-zA-Z0-9 ]$/.test(event.key))
 		)
 			fn(event);
 	};

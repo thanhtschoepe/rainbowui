@@ -1,35 +1,17 @@
-<script lang="ts" context="module">
-	export type SelectOption = {
-		id: number | string | Symbol;
-		content: string;
-		disabled?: boolean;
-	};
-</script>
-
 <script lang="ts">
-	import {
-		Listbox,
-		ListboxButton,
-		ListboxOptions,
-		ListboxOption
-	} from '@rgossiaux/svelte-headlessui';
-	import Icon from '../base/misc/Icon.svelte';
+	import Icon from '~/components/base/misc/Icon.svelte';
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { ModifierPhases } from '@popperjs/core';
+	import { createListBox } from '~/core/listbox.ts';
+	import Button from '~/components/base/button/Button.svelte';
+	import type { ListItem } from 'core/infra/type.ts';
 
 	// TODO: Add support for multiple selection
-	const multiple = false;
-	export let options: SelectOption[] = [];
-	export let value: SelectOption | null = null;
+	export let items: ListItem[] = [];
+	export let value: string | null = null;
 	export let id: string;
 	export let name: string;
 	export let placeholder = 'Select an option';
-
-	$: {
-		if (multiple) {
-			value = Array.isArray(value) ? value : [];
-		}
-	}
 
 	export let placement:
 		| 'bottom-end'
@@ -66,50 +48,58 @@
 		]
 	};
 	const [popperRef, popperContent] = createPopperActions(popperOptions);
+	const listbox = createListBox({
+		items: items,
+		selected: items.find((item) => item.value === value)?.id
+	});
+
+	// sync props with hook state
+	$: {
+		if (value) {
+			listbox.set({ selected: items.find((item) => item.value === value)?.id });
+		}
+	}
 </script>
 
-<select {name} {id} class="hidden" {multiple} />
-<Listbox {value} on:change={(e) => (value = e.detail)} class="relative group" let:open {multiple}>
-	<div use:popperRef>
-		<ListboxButton
-			class={`button variant-default status-initial ${
-				open ? 'backlight-corner-br backlight after:blur-sm' : ''
-			} `}
+<select {name} {id} class="hidden" />
+<span>{$listbox.items.length}</span>
+<div class="relative group">
+	<slot name="trigger" expanded={$listbox.expanded} actions={[listbox.trigger, popperRef]}>
+		<Button actions={[listbox.trigger, popperRef]}
+			>{value ?? placeholder}
+			<Icon name={$listbox.expanded ? 'chevron-up' : 'chevron-down'} /></Button
 		>
-			<slot name="value" {value} {open} {placeholder}>
-				{value?.content ?? placeholder}
-				<Icon name={open ? 'chevron-down' : 'chevron-up-down'} />
-			</slot>
-		</ListboxButton>
-	</div>
-
-	<div use:popperContent={popperOptions} class="inline-flex">
-		<ListboxOptions
-			unmount={false}
-			class="inline-block overflow-auto rounded-sm shadow-xl outline-none bg-dark-5 backdrop-blur-sm dark:bg-light-5 max-h-96"
-		>
-			{#each options as item (item.id)}
-				<ListboxOption
+	</slot>
+</div>
+{#if $listbox.expanded}
+	<ul
+		use:listbox.items
+		use:popperContent={popperOptions}
+		class="inline-block overflow-auto rounded-sm shadow-xl outline-none bg-dark-5 backdrop-blur-sm dark:bg-light-5 max-h-96"
+	>
+		{#each items as item (item.id)}
+			{@const selected = $listbox.selected === item.id}
+			{@const active = $listbox.active === item.id}
+			<slot name="item" option={item} {selected} {active}>
+				<li
+					use:listbox.item={item}
 					value={item}
 					disabled={item.disabled}
-					let:active
-					let:selected
-					class={({ active, selected }) =>
-						!$$slots.option
-							? `${active ? 'bg-dark-2 dark:bg-light-2 dark:text-dark text-light' : ''} ${
-									selected
-										? 'backlight-corner-r backlight-rainbow after:animate-glow after:scale-75 after:-translate-y-1'
-										: ''
-							  } px-4 py-2 backlight ${item.disabled ? 'opacity-50 pointer-events-none' : ''}`
-							: ''}
+					class={!$$slots.item
+						? `${active ? 'bg-dark-2 dark:bg-light-2 dark:text-dark text-light' : ''} ${
+								selected
+									? 'backlight-corner-r backlight-rainbow after:animate-glow after:scale-75 after:-translate-y-1'
+									: ''
+						  } relative outline-none px-4 py-2 backlight ${
+								item.disabled ? 'opacity-50 pointer-events-none' : ''
+						  }`
+						: ''}
 				>
-					<slot name="option" option={item} {selected} {active}>
-						<span class={selected ? 'backlight backlight-full backlight-success' : ''}
-							>{item.content}</span
-						>
-					</slot>
-				</ListboxOption>
-			{/each}
-		</ListboxOptions>
-	</div>
-</Listbox>
+					<span class={selected ? 'backlight backlight-full backlight-success' : ''}
+						>{item.value}</span
+					>
+				</li>
+			</slot>
+		{/each}
+	</ul>
+{/if}

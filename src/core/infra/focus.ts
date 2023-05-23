@@ -38,7 +38,10 @@ export enum Focus {
 	WrapAround = 1 << 4,
 
 	/** Prevent scrolling the focusable elements into view */
-	NoScroll = 1 << 5
+	NoScroll = 1 << 5,
+
+	/** Focus on the first selected item */
+	FirstSelected = 1 << 6
 }
 
 export enum FocusResult {
@@ -100,7 +103,7 @@ export function focusIn(node: HTMLElement | HTMLElement[], focus: Focus) {
 	let active = document.activeElement as HTMLElement;
 
 	let direction = (() => {
-		if (focus & (Focus.First | Focus.Next)) return Direction.Next;
+		if (focus & (Focus.First | Focus.Next | Focus.FirstSelected)) return Direction.Next;
 		if (focus & (Focus.Previous | Focus.Last)) return Direction.Previous;
 
 		throw new Error('Missing Focus.First, Focus.Previous, Focus.Next or Focus.Last');
@@ -111,6 +114,11 @@ export function focusIn(node: HTMLElement | HTMLElement[], focus: Focus) {
 		if (focus & Focus.Previous) return Math.max(0, elements.indexOf(active)) - 1;
 		if (focus & Focus.Next) return Math.max(0, elements.indexOf(active)) + 1;
 		if (focus & Focus.Last) return elements.length - 1;
+		if (focus & Focus.FirstSelected)
+			return Math.max(
+				elements.findIndex((el) => el.hasAttribute('aria-selected')),
+				0
+			);
 
 		throw new Error('Missing Focus.First, Focus.Previous, Focus.Next or Focus.Last');
 	})();
@@ -136,8 +144,7 @@ export function focusIn(node: HTMLElement | HTMLElement[], focus: Focus) {
 		next = elements[nextIdx];
 
 		// Try the focus the next element, might not work if it is "hidden" to the user.
-		next?.focus();
-		console.log(next.textContent);
+		next?.focus(focusOptions);
 
 		// Try the next one in line
 		offset += direction;

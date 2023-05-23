@@ -22,10 +22,10 @@ export interface ListBox {
 	triggerElementId?: string;
 	containerId?: string;
 	selected?: ListItem['id'];
-	multiple?: boolean;
-	active: number;
+	active?: ListItem['id'];
 	'aria-controls'?: string;
 	items: ListItem[];
+	closeOnSelect?: boolean;
 }
 export function createListBox(init: Partial<ListBox>) {
 	const prefix = getPrefix('listbox');
@@ -33,7 +33,7 @@ export function createListBox(init: Partial<ListBox>) {
 	let state: ListBox = {
 		'aria-expanded': false,
 		items: [] as ListItem[],
-		active: -1,
+		closeOnSelect: true,
 		...init
 	};
 
@@ -44,12 +44,15 @@ export function createListBox(init: Partial<ListBox>) {
 	const open = () =>
 		set({
 			'aria-expanded': true,
-			active: state.items.findIndex((x) => x.value === state.selected)
+			active: state.items.find((x) => x.id === state.selected)?.id
 		});
 	const close = () => set({ 'aria-expanded': false });
 	const toggle = () => (state['aria-expanded'] ? close() : open());
 	// TODO: implement select and search
-	const select = () => {};
+	const select = (item: ListItem) => {
+		set({ selected: item.id });
+		if (state.closeOnSelect) close();
+	};
 	const search = (q: string) => console.log('Searching', q);
 
 	function trigger(node: HTMLElement) {
@@ -91,7 +94,6 @@ export function createListBox(init: Partial<ListBox>) {
 			onClickOutside(close),
 			// Select the enabled item on click
 			applyEventListeners('keydown', [
-				onKey('Enter', ' ')(select),
 				onKey('ArrowUp')((evt) => {
 					evt.preventDefault();
 					focusIn(node, Focus.WrapAround | Focus.Previous);
@@ -142,12 +144,12 @@ export function createListBox(init: Partial<ListBox>) {
 		};
 	}
 
-	function item(node: HTMLElement, options: ItemOption) {
+	function item(node: HTMLElement, item: ListItem) {
 		ensureId(node, prefix);
 
-		const update = (options: ItemOption) => {
-			const textValue = options.value ?? extractTextualValue(node);
-			const disabled = options.disabled ?? node.hasAttribute('disabled');
+		const update = (options?: ItemOption) => {
+			const textValue = options?.value ?? extractTextualValue(node);
+			const disabled = options?.disabled ?? node.hasAttribute('disabled');
 
 			const values = {
 				value: textValue,
@@ -155,44 +157,48 @@ export function createListBox(init: Partial<ListBox>) {
 			};
 
 			// TODO: refactor into Map for faster look up
-			const item = state.items.find((item) => item.id === node.id);
+			const foundItem = state.items.find((item) => item.id === node.id);
 
-			if (item) {
-				if (item.value === values.value && item.disabled === values.disabled) return;
-				Object.assign(item, values);
+			if (foundItem) {
+				if (foundItem.value === values.value && foundItem.disabled === values.disabled) return;
+				Object.assign(foundItem, values);
 			} else {
 				state.items.push({ id: node.id, ...values });
 			}
 			set({ items: state.items });
 		};
-		update(options);
-		const syncListItemAria = (
+		const syncListItemAria =
 			(store: Readable<{ items: ListItem[]; selected?: ListItem['id'] }>): Behavior =>
-			(node) => {
-				return derived(store, ($store) => {
+			(node) =>
+				derived(store, ($store) => {
 					// TODO: efficient search
-					const item = $store.items.find((item) => item.id === node.id);
+					const found = $store.items.find((x) => x.id === item.id);
 					return {
 						// TODO: implement multi-select
-						selected: item?.id === $store?.selected,
-						disabled: item?.disabled
+						selected: found?.id === $store?.selected || null,
+						disabled: found?.disabled
 					};
 				}).subscribe(({ disabled, selected }) =>
 					setAriaAttributes({ 'aria-disabled': disabled, 'aria-selected': selected })(node)
 				);
-			}
-		)(store);
 
 		const destroy = applyBehaviors(node, [
 			// prevent options from gaining keyboard focus
 			setAttributes({
-				tabIndex: 0
+				tabIndex: item.disabled ? -1 : 0
 			}),
 			setAriaRole('option'),
-			syncListItemAria,
+			syncListItemAria(store),
 			// Event handlers
 			// Select the enabled item on click
-			applyEventListeners('click', [select])
+			applyEventListeners('click', [() => select(item)]),
+			applyEventListeners('pointerenter', [
+				() => {
+					node.focus();
+				}
+			]),
+			applyEventListeners('keydown', [onKey('Enter', ' ')(() => select(item))]),
+			applyEventListeners('focus', [() => set({ active: item.id })])
 		]);
 
 		return {
@@ -203,7 +209,9 @@ export function createListBox(init: Partial<ListBox>) {
 	// expose a subset of our state, derive the selected value
 	const { subscribe } = derived(store, ($store) => ({
 		expanded: $store['aria-expanded'],
-		selected: $store.selected
+		selected: $store.selected,
+		active: $store.active,
+		items: $store.items
 	}));
 
 	return {

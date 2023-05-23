@@ -15,16 +15,17 @@
 <Story
 	name="Default"
 	args={{
-		options: [
-			{ id: 1, content: 'Durward Reynolds', disabled: false },
-			{ id: 2, content: 'Kenton Towne', disabled: false },
-			{ id: 3, content: 'Therese Wunsch', disabled: false },
-			{ id: 4, content: 'Benedict Kessler', disabled: true },
-			{ id: 5, content: 'Katelyn Rohan', disabled: false }
+		value: 'Katelyn Rohan',
+		items: [
+			{ id: 1, value: 'Durward Reynolds', disabled: false },
+			{ id: 2, value: 'Kenton Towne', disabled: false },
+			{ id: 3, value: 'Therese Wunsch', disabled: false },
+			{ id: 4, value: 'Benedict Kessler', disabled: true },
+			{ id: 5, value: 'Katelyn Rohan', disabled: false }
 		]
 	}}
 />
-<Story
+<!-- <Story
 	name="using option slot"
 	args={{
 		options: [
@@ -64,11 +65,11 @@
 			<span class="col-span-5">{option.content}</span>
 		</div>
 	</Select>
-</Story>
+</Story> -->
 <Story name="using value slot">
 	<Select
 		placeholder={'Select food'}
-		options={[
+		items={[
 			{ id: 1, content: '🍕 Pizza', disabled: false },
 			{ id: 2, content: '🍔 Burger', disabled: false },
 			{ id: 3, content: '🍣 Sushi', disabled: false },
@@ -76,7 +77,7 @@
 			{ id: 5, content: '🍦 Ice Cream', disabled: false }
 		]}
 	>
-		<div slot="value" let:value let:open let:placeholder class="inline-block">
+		<div slot="trigger" let:value let:open let:placeholder class="inline-block">
 			{value?.content ?? placeholder}
 			{#if /Pizza/.test(value?.content)}
 				<Icon name="face-smile" class="inline stroke-2 stroke-dark-1" />
@@ -99,7 +100,7 @@
 	}}
 >
 	<Select
-		options={[
+		items={[
 			{
 				id: '#input',
 				content: '',

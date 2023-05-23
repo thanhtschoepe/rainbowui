@@ -25,3 +25,11 @@ export function extractTextualValue(
 
 	return node.textContent?.trim() ?? node.getAttribute('aria-label') ?? referencedNodeText;
 }
+
+export function log(fn: any, msg?: string) {
+	return function () {
+		console.log(msg);
+		console.log(fn.name, arguments);
+		return fn(arguments);
+	};
+}
