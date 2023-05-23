@@ -2,15 +2,16 @@ import { applyEventListeners } from './behaviors.js';
 import type { Behavior, Key } from './type.ts';
 
 type InternalKeyHandler = (event: KeyboardEvent) => void;
-type InternalEventHandler = (event: Event) => void;
 
 export const invokeOnKey =
 	(...keys: Key[]) =>
 	(fn: InternalKeyHandler) =>
 	(event: KeyboardEvent) => {
-		if (keys.includes(event.key as Key)) {
+		if (
+			keys.includes(event.key as Key) ||
+			(keys.includes('CharacterKey') && event.key.match(/(\w|\s)/g))
+		)
 			fn(event);
-		}
 	};
 
 export const modifyHandler =

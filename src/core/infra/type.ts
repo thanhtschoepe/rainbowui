@@ -9,4 +9,18 @@ export type Key =
 	| 'ArrowDown'
 	| 'ArrowLeft'
 	| 'ArrowRight'
-	| 'Tab';
+	| 'Tab'
+	| 'Home'
+	| 'End'
+	| 'CharacterKey';
+
+export interface ListItem {
+	id: string;
+	value: any;
+	disabled: boolean;
+}
+
+export interface ItemOption {
+	value?: any;
+	disabled?: boolean;
+}

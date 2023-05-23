@@ -22,7 +22,6 @@
 		modifiers: [{ name: 'offset', options: { offset: [offsetX, offsetY] } }]
 	};
 	let purpose: 'menu' | 'dialog' | 'listbox' | 'tree' | 'grid' | 'dialog' = 'menu';
-
 	const popover = createPopover({ purpose });
 </script>
 
