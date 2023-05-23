@@ -123,6 +123,7 @@ export function focusIn(node: HTMLElement | HTMLElement[], focus: Focus) {
 		throw new Error('Missing Focus.First, Focus.Previous, Focus.Next or Focus.Last');
 	})();
 
+	console.log('startIndex', startIndex);
 	let focusOptions = focus & Focus.NoScroll ? { preventScroll: true } : {};
 
 	let offset = 0;
@@ -133,7 +134,6 @@ export function focusIn(node: HTMLElement | HTMLElement[], focus: Focus) {
 		if (offset >= total || offset + total <= 0) return FocusResult.Error;
 
 		let nextIdx = startIndex + offset;
-
 		if (focus & Focus.WrapAround) {
 			nextIdx = (nextIdx + total) % total;
 		} else {

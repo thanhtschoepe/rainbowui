@@ -21,41 +21,61 @@ export interface ListBox {
 	'aria-activedescendant'?: string;
 	triggerElementId?: string;
 	containerId?: string;
-	selected?: ListItem['id'];
+	selected: Set<ListItem['id']>;
 	active?: ListItem['id'];
 	'aria-controls'?: string;
-	items: ListItem[];
+	items: Map<ListItem['id'], ListItem>;
 	closeOnSelect?: boolean;
+	multiple?: boolean;
 }
 export function createListBox(init: Partial<ListBox>) {
 	const prefix = getPrefix('listbox');
 
 	let state: ListBox = {
 		'aria-expanded': false,
-		items: [] as ListItem[],
+		items: new Map(),
 		closeOnSelect: true,
+		selected: new Set(),
 		...init
 	};
 
 	const store = writable(state);
 
 	const set = (part: Partial<ListBox>) => store.set((state = { ...state, ...part }));
-
 	const open = () =>
 		set({
-			'aria-expanded': true,
-			active: state.items.find((x) => x.id === state.selected)?.id
+			'aria-expanded': true
 		});
 	const close = () => set({ 'aria-expanded': false });
 	const toggle = () => (state['aria-expanded'] ? close() : open());
 	// TODO: implement select and search
-	const select = (item: ListItem) => {
-		set({ selected: item.id });
+	const select = (id: ListItem['id']) => {
+		// toggle selection on item click
+		if (state.selected.has(id)) {
+			state.selected.delete(id);
+		} else if (state.multiple) {
+			state.selected.add(id);
+		} else {
+			state.selected.clear();
+			state.selected.add(id);
+		}
+
+		// need to create a new Set to trigger svelte store update
+		set({ selected: new Set(state.selected) });
 		if (state.closeOnSelect) close();
 	};
-	const search = (q: string) => console.log('Searching', q);
+	const search = (q: string) => {
+		const re = new RegExp(`^${query}`, 'i');
+		const matched = Array.from(state.items.values()).find(
+			(item) => re.test(item.value) && !item.disabled
+		);
 
-	function trigger(node: HTMLElement) {
+		if (matched) {
+			set({ active: matched.id });
+		}
+	};
+
+	function triggerElement(node: HTMLElement) {
 		ensureId(node, prefix);
 		set({ triggerElementId: node.id });
 
@@ -79,7 +99,7 @@ export function createListBox(init: Partial<ListBox>) {
 	}
 	// query state for searching by character key
 	let query = '';
-	function items(node: HTMLElement) {
+	function listElement(node: HTMLElement) {
 		ensureId(node, prefix);
 		set({ 'aria-controls': node.id });
 
@@ -144,7 +164,7 @@ export function createListBox(init: Partial<ListBox>) {
 		};
 	}
 
-	function item(node: HTMLElement, item: ListItem) {
+	function listItemElement(node: HTMLElement, item: ListItem) {
 		ensureId(node, prefix);
 
 		const update = (options?: ItemOption) => {
@@ -157,30 +177,40 @@ export function createListBox(init: Partial<ListBox>) {
 			};
 
 			// TODO: refactor into Map for faster look up
-			const foundItem = state.items.find((item) => item.id === node.id);
-
+			const foundItem = state.items.get(item.id);
 			if (foundItem) {
 				if (foundItem.value === values.value && foundItem.disabled === values.disabled) return;
 				Object.assign(foundItem, values);
 			} else {
-				state.items.push({ id: node.id, ...values });
+				state.items.set(item.id, { id: item.id, ...values });
 			}
 			set({ items: state.items });
 		};
 		const syncListItemAria =
-			(store: Readable<{ items: ListItem[]; selected?: ListItem['id'] }>): Behavior =>
+			(store: Readable<ListBox>): Behavior =>
 			(node) =>
 				derived(store, ($store) => {
-					// TODO: efficient search
-					const found = $store.items.find((x) => x.id === item.id);
+					const found = $store.items.get(item.id);
 					return {
-						// TODO: implement multi-select
-						selected: found?.id === $store?.selected || null,
+						selected: $store.selected.has(item.id) || null,
 						disabled: found?.disabled
 					};
 				}).subscribe(({ disabled, selected }) =>
 					setAriaAttributes({ 'aria-disabled': disabled, 'aria-selected': selected })(node)
 				);
+
+		const syncActiveFocus =
+			(store: Readable<ListBox>): Behavior =>
+			(node) =>
+				derived(store, ($store) => $store.active).subscribe((active) => {
+					if (
+						active === item.id &&
+						(node.contains(document.activeElement) || document.activeElement === node)
+					) {
+						console.log('Trigger');
+						node.focus();
+					}
+				});
 
 		const destroy = applyBehaviors(node, [
 			// prevent options from gaining keyboard focus
@@ -189,16 +219,22 @@ export function createListBox(init: Partial<ListBox>) {
 			}),
 			setAriaRole('option'),
 			syncListItemAria(store),
+			syncActiveFocus(store),
 			// Event handlers
 			// Select the enabled item on click
-			applyEventListeners('click', [() => select(item)]),
+			applyEventListeners('click', [() => select(item.id)]),
 			applyEventListeners('pointerenter', [
 				() => {
 					node.focus();
 				}
 			]),
-			applyEventListeners('keydown', [onKey('Enter', ' ')(() => select(item))]),
-			applyEventListeners('focus', [() => set({ active: item.id })])
+			applyEventListeners('keydown', [onKey('Enter', ' ')(() => select(item.id))]),
+			applyEventListeners('focus', [
+				() => {
+					console.log('Changing active via focus event', item.id);
+					set({ active: item.id, 'aria-activedescendant': node.id });
+				}
+			])
 		]);
 
 		return {
@@ -216,11 +252,12 @@ export function createListBox(init: Partial<ListBox>) {
 
 	return {
 		subscribe,
-		trigger,
-		items,
-		item,
+		triggerElement,
+		listElement,
+		listItemElement,
 		open,
 		close,
-		set
+		set,
+		select
 	};
 }
