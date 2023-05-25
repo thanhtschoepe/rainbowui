@@ -12,9 +12,21 @@ import {
 	setAttributes,
 	syncAriaAttribute
 } from './infra/behaviors.ts';
-import { onClickOutside, onKey } from './infra/events.ts';
+import { fireCustomEvent, onClickOutside, onKey } from './infra/events.ts';
 import { Focus, focusIn } from './infra/focus.ts';
 import { extractTextualValue } from './infra/misc.ts';
+
+function fireSelectEventOnChange(selected: ListBox['selected'], state: ListBox) {
+	const selectedValues = Array.from(selected.values())
+		.map((id) => state.items.get(id))
+		.map((item) => item?.value);
+
+	const node = document.getElementById(state?.triggerElementId ?? '');
+
+	if (node) {
+		fireCustomEvent('select', state.multiple ? selectedValues : selectedValues[0])(node);
+	}
+}
 
 export interface ListBox {
 	'aria-expanded': boolean;
@@ -38,7 +50,6 @@ export function createListBox(init: Partial<ListBox>) {
 		selected: new Set(),
 		...init
 	};
-
 	const store = writable(state);
 
 	const set = (part: Partial<ListBox>) => store.set((state = { ...state, ...part }));
@@ -48,24 +59,23 @@ export function createListBox(init: Partial<ListBox>) {
 		});
 	const close = () => set({ 'aria-expanded': false });
 	const toggle = () => (state['aria-expanded'] ? close() : open());
-	// TODO: implement select and search
+
 	const select = (id: ListItem['id']) => {
 		// toggle selection on item click
-		if (state.selected.has(id)) {
-			state.selected.delete(id);
-		} else if (state.multiple) {
+
+		if (state.multiple) {
 			state.selected.add(id);
+			if (state.selected.has(id)) state.selected.delete(id);
 		} else {
 			state.selected.clear();
 			state.selected.add(id);
 		}
-
-		// need to create a new Set to trigger svelte store update
 		set({ selected: new Set(state.selected) });
+		fireSelectEventOnChange(state.selected, state);
 		if (state.closeOnSelect) close();
 	};
 	const search = (q: string) => {
-		const re = new RegExp(`^${query}`, 'i');
+		const re = new RegExp(`^${q}`, 'i');
 		const matched = Array.from(state.items.values()).find(
 			(item) => re.test(item.value) && !item.disabled
 		);
@@ -168,6 +178,7 @@ export function createListBox(init: Partial<ListBox>) {
 		ensureId(node, prefix);
 
 		const update = (options?: ItemOption) => {
+			console.log('Update was invoked');
 			const textValue = options?.value ?? extractTextualValue(node);
 			const disabled = options?.disabled ?? node.hasAttribute('disabled');
 
@@ -176,7 +187,6 @@ export function createListBox(init: Partial<ListBox>) {
 				disabled
 			};
 
-			// TODO: refactor into Map for faster look up
 			const foundItem = state.items.get(item.id);
 			if (foundItem) {
 				if (foundItem.value === values.value && foundItem.disabled === values.disabled) return;
@@ -206,10 +216,8 @@ export function createListBox(init: Partial<ListBox>) {
 					if (
 						active === item.id &&
 						(node.contains(document.activeElement) || document.activeElement === node)
-					) {
-						console.log('Trigger');
+					)
 						node.focus();
-					}
 				});
 
 		const destroy = applyBehaviors(node, [
@@ -230,10 +238,7 @@ export function createListBox(init: Partial<ListBox>) {
 			]),
 			applyEventListeners('keydown', [onKey('Enter', ' ')(() => select(item.id))]),
 			applyEventListeners('focus', [
-				() => {
-					console.log('Changing active via focus event', item.id);
-					set({ active: item.id, 'aria-activedescendant': node.id });
-				}
+				() => set({ active: item.id, 'aria-activedescendant': node.id })
 			])
 		]);
 

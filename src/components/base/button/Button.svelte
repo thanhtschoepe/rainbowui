@@ -23,12 +23,6 @@
 	const dispatch = createEventDispatcher();
 	let timeoutId: ReturnType<typeof setTimeout>;
 
-	function forwardEvent(type: string, event: Event) {
-		if (localNetworkStatus !== 'PENDING' || type === 'blur' || type === 'focus') {
-			dispatch(type, event);
-		}
-	}
-
 	function updateNetworkStatus() {
 		if (localNetworkStatus === 'SUCCESS' || localNetworkStatus === 'ERROR') {
 			clearTimeout(timeoutId);
@@ -46,16 +40,15 @@
 	on:blur
 	on:focus
 	on:pointerdown
-	on:click
-	on:pointerup={(event) => {
-		forwardEvent('pointerup', event);
-	}}
+	on:select
+	on:pointerup
 	on:pointerenter
 	on:pointerleave
 	on:pointermove
 	on:keyup
 	on:keydown
 	on:keypress
+	on:click
 	use:useActions={actions}
 	{...$$restProps}
 	class={`button ${$$props.class || ''}`}

@@ -50,3 +50,12 @@ export function onClickOutside(fn: (event: Event) => void, when?: () => boolean)
 		};
 	};
 }
+
+export const fireCustomEvent =
+	<T extends any>(name: string, payload: T) =>
+	(node: HTMLElement) => {
+		const event = new CustomEvent(name, {
+			detail: payload
+		});
+		node.dispatchEvent(event);
+	};

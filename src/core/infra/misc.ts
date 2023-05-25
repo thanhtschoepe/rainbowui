@@ -28,8 +28,18 @@ export function extractTextualValue(
 
 export function log(fn: any, msg?: string) {
 	return function () {
-		console.log(msg);
+		msg && console.log(msg);
 		console.log(fn.name, arguments);
 		return fn(arguments);
+	};
+}
+
+export function getFirst(set: Set<any>) {
+	set.values().next().value;
+}
+
+export function combine<T extends (...args: any[]) => void>(...fns: T[]) {
+	return function (...args: Parameters<T>) {
+		fns.forEach((fn) => fn(...args));
 	};
 }
