@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Icon, { icons } from '../misc/Icon.svelte';
-	import type { IconName } from '../misc/Icon.svelte';
-	import Button from '../button/Button.svelte';
-	import Input from '../../form/Input.svelte';
+	import Icon, { icons } from '~/components/base/misc/Icon.svelte';
+	import type { IconName } from '~/components/base/misc/Icon.svelte';
+	import Button from '~/components/base/button/Button.svelte';
+	import Input from '~/components/form/Input.svelte';
 
 	let copiedStatus: Record<IconName, 'INITIAL' | 'SUCCESS'> = {};
 	const copy = (iconName: IconName) => {

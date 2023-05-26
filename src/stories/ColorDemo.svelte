@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '../button/Button.svelte';
+	import Button from '~/components/base/button/Button.svelte';
 	let imgUrl =
 		'https://images.unsplash.com/photo-1618172842918-3eabce30c912?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80';
 	let imgUrl2 =
