@@ -1,51 +1,4 @@
 <script context="module" lang="ts">
-	const featherIcons = [
-		'activity',
-		'airplay',
-		'alert-circle',
-		'alert-octagon',
-		'alert-triangle',
-		'align-center',
-		'align-justify',
-		'align-left',
-		'align-right',
-		'anchor',
-		'aperture',
-		'archive',
-		'arrow-down-circle',
-		'arrow-down-left',
-		'arrow-down-right',
-		'arrow-down',
-		'arrow-left-circle',
-		'arrow-left',
-		'arrow-right-circle',
-		'arrow-right',
-		'arrow-up-circle',
-		'arrow-up-left',
-		'arrow-up-right',
-		'arrow-up',
-		'at-sign',
-		'award',
-		'bar-chart-2',
-		'bar-chart',
-		'battery-charging',
-		'battery',
-		'bell-off',
-		'bell',
-		'bluetooth',
-		'bold',
-		'book-open',
-		'book',
-		'bookmark',
-		'box',
-		'briefcase',
-		'calendar',
-		'camera-off',
-		'camera',
-		'cast',
-		'check-circle',
-		'check-square'
-	] as const;
 	const heroIcons = [
 		'academic-cap',
 		'adjustments-horizontal',
@@ -340,49 +293,16 @@
 		'x-circle',
 		'x-mark'
 	] as const;
-	export const icons = [...new Set([...featherIcons, ...heroIcons])];
-	type FeatherIconType = (typeof featherIcons)[number];
-	type HeroIconType = (typeof heroIcons)[number];
-	export type IconName = FeatherIconType | HeroIconType;
+	export const icons = [...new Set([...heroIcons])];
+	export type IconName = typeof icons;
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import CoreIcon from '@iconify/svelte';
 	export let name: IconName;
-	const isFeatherIcon = featherIcons.includes(name as FeatherIconType);
-
-	let component: any;
-	$: {
-		if (!isFeatherIcon) {
-			const pascalCase =
-				name
-					.split('-')
-					.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-					.join('') + 'Icon';
-
-			//@ts-ignore FIXME
-		}
-	}
-
-	onMount(() => {
-		if (isFeatherIcon) {
-			//@ts-ignore
-			window?.feather?.replace();
-		}
-	});
 </script>
 
-{#if isFeatherIcon}
-	<i
-		data-feather={name}
-		class={$$props.class + ' ' + 'icon-group stroke-dark dark:stroke-light h-5 w-5'}
-	/>
-
-	<style lang="postcss">
-	</style>
-{:else}
-	<svelte:component
-		this={component}
-		class={$$props.class + ' ' + 'icon-group stroke-dark dark:stroke-light h-5 w-5'}
-	/>
-{/if}
+<CoreIcon
+	icon="heroicons:{name}"
+	class={$$props.class + ' ' + 'icon-group stroke-dark dark:stroke-light h-5 w-5'}
+/>

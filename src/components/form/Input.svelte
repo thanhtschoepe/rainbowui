@@ -16,7 +16,7 @@
 </script>
 
 <fieldset
-	class={'transition backdrop-blur-sm hover:backdrop-blur-md group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 backlight-for-focus ' +
+	class={'transition-color backdrop-blur-sm hover:backdrop-blur-md group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 backlight-for-focus ' +
 		className}
 	{disabled}
 	class:invalid
