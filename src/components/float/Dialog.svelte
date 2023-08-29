@@ -1,15 +1,15 @@
 <script lang="ts">
-	import {
-		Dialog,
-		DialogOverlay,
-		DialogTitle,
-		DialogDescription
-	} from '@rgossiaux/svelte-headlessui';
-
 	import Button from '../base/button/Button.svelte';
 	import Icon from '../base/misc/Icon.svelte';
+
+	interface Modal {
+		showModal: VoidFunction;
+		close: VoidFunction;
+		getBoundingClientRect: HTMLElement['getBoundingClientRect'];
+	}
+
 	export let open = true;
-	let modal;
+	let modal: Modal | undefined;
 
 	$: if (open) {
 		modal?.showModal();

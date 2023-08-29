@@ -348,7 +348,6 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	export let name: IconName;
 	const isFeatherIcon = featherIcons.includes(name as FeatherIconType);
 
