@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Switch } from '@rgossiaux/svelte-headlessui';
 	import { onMount, afterUpdate } from 'svelte';
 
 	export let id: string;
@@ -29,7 +28,7 @@
 	}
 </script>
 
-<Switch
+<!-- <Switch
 	{checked}
 	onChange={(e) => (checked = e.detail)}
 	class={`transition-all backlight backlight-full backlight-full-sm group hover:bg-dark-2 dark:hover:bg-light-2 outline-none border-none inline-flex items-center bg-dark-3 dark:bg-light-3 px-1 py-1 w-14 rounded disabled:opacity-50 disabled:pointer-events-none ${
@@ -50,4 +49,6 @@
 			localNetworkStatus === 'pending' ? 'animate-flash' : ''
 		} ${localNetworkStatus === 'error' ? 'animate-shake' : ''}`}
 	/>
-</Switch>
+</Switch> -->
+
+<div>The switch component is broken due to implementation details. I am working to fix it</div>
