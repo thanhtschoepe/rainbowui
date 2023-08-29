@@ -348,7 +348,6 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import * as HeroIconsOutline from '@babeard/svelte-heroicons/outline';
 
 	export let name: IconName;
 	const isFeatherIcon = featherIcons.includes(name as FeatherIconType);
@@ -362,8 +361,7 @@
 					.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 					.join('') + 'Icon';
 
-			//@ts-ignore
-			component = HeroIconsOutline[pascalCase];
+			//@ts-ignore FIXME
 		}
 	}
 

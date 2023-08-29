@@ -1,7 +1,6 @@
 <!-- Button.svelte -->
 <script lang="ts">
 	import type { ActionArray } from 'core/infra/forwardActions.ts';
-	import { createEventDispatcher } from 'svelte';
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
 	import { useActions } from '~/core/infra/forwardActions.ts';
 
@@ -10,29 +9,27 @@
 	export let revertDuration: number = 3000; // Default revert duration in milliseconds
 	export let label: string | undefined = undefined;
 	export let actions: ActionArray = [];
+	export let disabled: boolean = false;
 
 	if (variant === 'icon' && !label) {
 		console.warn('Icon buttons should have a label');
 	}
 
 	let localNetworkStatus = networkStatus;
-	$: {
-		localNetworkStatus = networkStatus;
-	}
-
-	const dispatch = createEventDispatcher();
 	let timeoutId: ReturnType<typeof setTimeout>;
 
-	function updateNetworkStatus() {
-		if (localNetworkStatus === 'SUCCESS' || localNetworkStatus === 'ERROR') {
+	$: {
+		localNetworkStatus = networkStatus;
+		if (networkStatus === 'SUCCESS' || networkStatus === 'ERROR') {
 			clearTimeout(timeoutId);
 			timeoutId = setTimeout(() => {
 				localNetworkStatus = 'INITIAL';
+				console.log('Reverting network status')
 			}, revertDuration);
 		}
 	}
-	onMount(updateNetworkStatus);
-	afterUpdate(updateNetworkStatus);
+	$: computedDisabled = disabled || localNetworkStatus === 'PENDING';
+		
 	onDestroy(() => clearTimeout(timeoutId));
 </script>
 
@@ -51,6 +48,7 @@
 	on:click
 	use:useActions={actions}
 	{...$$restProps}
+	disabled={computedDisabled}
 	class={`button ${$$props.class || ''}`}
 	class:variant-default={variant === 'default'}
 	class:variant-icon={variant === 'icon'}
@@ -58,8 +56,8 @@
 	class:status-success={localNetworkStatus === 'SUCCESS'}
 	class:status-error={localNetworkStatus === 'ERROR'}
 	class:status-initial={localNetworkStatus === 'INITIAL'}
-	aria-disabled={localNetworkStatus === 'PENDING'}
+	aria-disabled={computedDisabled}
 	aria-label={label}
 >
-	<slot networkStatus={localNetworkStatus} />
+	<slot networkStatus={localNetworkStatus}  />
 </button>

@@ -179,27 +179,21 @@
 	  .button.variant-default {
 		@apply border border-dark-5 dark:border-light-5  px-4 py-3 bg-dark-4 dark:bg-light-4 hover:bg-dark-3 hover:dark:bg-light-3 focus:bg-dark-3 focus:dark:bg-light-3;
 	  }
-	  
 	  .button.variant-icon {
 		@apply p-3 hover:bg-dark-4 dark:hover:bg-light-2 shadow-none focus:bg-dark-4 focus:dark:bg-light-4 after:-inset-1;
 	  }
-	  
 	  .button.status-initial {
 		@apply backlight-for-focus backlight-rainbow;
 	  }
-
 	  .status-initial.button.variant-default {
 		@apply focus:backlight-corner-r
 	  }
-	  
 	  .button.status-pending {
-		@apply backlight-full pointer-events-none backlight-rainbow after:animate-glow-pulse;
+		@apply backlight-full pointer-events-none backlight-rainbow after:animate-glow-pulse opacity-100;
 	  }
-	  
 	  .button.status-success {
 		@apply backlight-full backlight-success after:animate-shutdown backlight-full-sm;
 	  }
-	  
 	  .button.status-error {
 		@apply backlight-full animate-shake backlight-danger after:animate-shutdown backlight-full-sm direction-animation-reverse;
 	  }
