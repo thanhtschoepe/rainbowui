@@ -17,7 +17,7 @@
 		<div
 			use:popper.popperContent={popper.makePopperContentOptions(popperOptions)}
 			use:popover.panelElement
-			class="p-4 border rounded-sm shadow-2xl backdrop-blur-sm bg-dark-5 dark:bg-light-5"
+			class="popover-container"
 		>
 			<slot name="content" />
 		</div>

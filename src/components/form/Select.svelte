@@ -15,33 +15,36 @@
 	export let closeOnSelect = true;
 	export let popperOptions: Popper;
 
-	$: multiple = Array.isArray(value);
-	$: itemsMap = new Map(items.map((item) => [item.id, item]));
-
 	const popper = createPopper();
 	const listbox = createListBox({
 		items: new Map(items.map((item) => [item.id, item]))
 	});
 
+	$: multiple = Array.isArray(value);
 	$: {
 		listbox.set({
 			multiple,
 			closeOnSelect,
-			items: itemsMap
+			items: new Map(items.map((item) => [item.id, item]))
 		});
 	}
-	$: {
-		// Update selected in hook based on value
-		const selected = items.find((item) => item.value === value)?.id;
-		if (selected) {
-			listbox.select(selected);
-		}
-	}
+	// Update selected in hook based on value
+	// $: {
+	// 	let selected = [];
+	// 	if (!Array.isArray(value)) {
+	// 		selected = [items.find((item) => item.value === value)?.id];
+	// 	} else {
+	// 		selected = value.map((v) => itemsMap.get(v));
+	// 	}
+	// 	console.log('Selected = ', selected);
+	// 	selected.forEach(listbox.select);
+	// }
 
-	function onSelect(e: Event) {
-		const selected = (e as CustomEvent).detail;
-		value = selected;
-	}
+	// function onSelect(e: Event) {
+	// 	const selected = (e as CustomEvent).detail;
+	// 	console.log('Select event fired', selected);
+	// 	value = selected;
+	// }
 </script>
 
 <select {name} {id} class="hidden" />
@@ -51,20 +54,23 @@
 		expanded={$listbox.expanded}
 		actions={[listbox.triggerElement, popper.popperRef]}
 	>
-		{#if multiple}
-			<div class="p-4" use:listbox.triggerElement use:popper.popperRef>
-				{#if !value || !value.length}
-					{placeholder}
-				{/if}
-				{#each value as v, i}
-					<span class="px-2 py-1 bg-yellow-200 typo-caption">{v}</span>
-				{/each}
-			</div>
+		{#if Array.isArray(value)}
+			<Button actions={[listbox.triggerElement, popper.popperRef]}>
+				<span class="select-trigger-multiple">
+					{#if !value || !value.length}
+						{placeholder}
+					{/if}
+					{#each value as v}
+						<span class="tag">{v}</span>
+					{/each}
+				</span>
+				<Icon name={$listbox.expanded ? 'chevron-up' : 'chevron-down'} />
+			</Button>
 		{:else}
-			<Button actions={[listbox.triggerElement, popper.popperRef]} on:select={onSelect}
-				>{value ?? placeholder}
-				<Icon name={$listbox.expanded ? 'chevron-up' : 'chevron-down'} /></Button
-			>
+			<Button actions={[listbox.triggerElement, popper.popperRef]}>
+				{value ?? placeholder}
+				<Icon name={$listbox.expanded ? 'chevron-up' : 'chevron-down'} />
+			</Button>
 		{/if}
 	</slot>
 </div>
@@ -72,31 +78,25 @@
 	<ul
 		use:listbox.listElement
 		use:popper.popperContent={popper.makePopperContentOptions(popperOptions)}
-		class="inline-block overflow-auto rounded-sm shadow-xl outline-none bg-dark-5 backdrop-blur-sm dark:bg-light-5 max-h-96"
+		class="select-option-container"
 	>
 		{#each items as item (item.id)}
 			{@const active = $listbox.active === item.id}
 			{@const selected = $listbox.selected.has(item.id)}
 			<slot
+				actions={[[listbox.listItemElement, item]]}
 				name="item"
 				option={item}
 				{selected}
 				{active}
-				actions={[[listbox.listItemElement, item]]}
 			>
 				<li
 					use:listbox.listItemElement={item}
 					value={item}
-					disabled={item.disabled}
-					class={`${
-						active ? 'bg-dark-2 dark:bg-light-2 dark:text-dark text-light' : ''
-					} group relative outline-none px-4 py-2 backlight aria-selected:backlight-corner-r aria-selected:backlight-rainbow aria-selected:after:animate-glow aria-selected:after:scale-75 aria-selected:after:-translate-y-1
-								${item.disabled ? 'opacity-50 pointer-events-none' : ''}`}
+					class="select-option group"
+					class:active
 				>
-					<span
-						class={'group-aria-selected:backlight group-aria-selected:backlight-full group-aria-selected:backlight-success '}
-						>{item.value}</span
-					>
+					<span class="select-option-item">{item.value}</span>
 				</li>
 			</slot>
 		{/each}

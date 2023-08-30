@@ -16,8 +16,7 @@
 </script>
 
 <fieldset
-	class={'transition-color backdrop-blur-sm hover:backdrop-blur-md group relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo-body text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 backlight-for-focus ' +
-		className}
+	class={'group input-container ' + className}
 	{disabled}
 	class:invalid
 	class:valid={!invalid}
@@ -29,16 +28,10 @@
 		</span>
 	{/if}
 	<slot name="prefix" />
-	<input
-		class="bg-transparent border-none outline-none peer spin-button-hidden out-of-range:animate-shake min-w-[10rem] invalid:text-red-400 placeholder:text-dark-2 dark:placeholder:text-light-2"
-		{...$$props}
-		bind:value
-	/>
+	<input class="peer input" {...$$props} bind:value />
 	<slot name="help">
 		{#if type === 'number' && (min || max)}
-			<div
-				class="absolute left-2 -bottom-5 typo-caption peer-in-range:text-dark-1 peer-out-of-range:text-red-400/80"
-			>
+			<div class="help-text">
 				{#if min !== undefined}<span class="">Min: {min}</span> {/if}
 				{#if max !== undefined}<span class="">Max: {max}</span> {/if}
 			</div>
@@ -46,15 +39,3 @@
 	</slot>
 	<slot name="suffix" />
 </fieldset>
-
-<style lang="postcss">
-	.invalid {
-		@apply backlight-danger bg-red-700/10;
-	}
-	.valid {
-		@apply backlight-success bg-lime-700/10;
-	}
-	.validity-unset {
-		@apply backlight-rainbow bg-dark-5 dark:bg-light-5;
-	}
-</style>

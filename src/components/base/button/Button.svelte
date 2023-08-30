@@ -1,7 +1,7 @@
 <!-- Button.svelte -->
 <script lang="ts">
 	import type { ActionArray } from 'core/infra/forwardActions.ts';
-	import { onMount, afterUpdate, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { useActions } from '~/core/infra/forwardActions.ts';
 
 	export let variant: 'default' | 'icon' = 'default';
@@ -24,12 +24,11 @@
 			clearTimeout(timeoutId);
 			timeoutId = setTimeout(() => {
 				localNetworkStatus = 'INITIAL';
-				console.log('Reverting network status')
 			}, revertDuration);
 		}
 	}
 	$: computedDisabled = disabled || localNetworkStatus === 'PENDING';
-		
+
 	onDestroy(() => clearTimeout(timeoutId));
 </script>
 
@@ -59,5 +58,5 @@
 	aria-disabled={computedDisabled}
 	aria-label={label}
 >
-	<slot networkStatus={localNetworkStatus}  />
+	<slot networkStatus={localNetworkStatus} />
 </button>

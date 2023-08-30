@@ -2,18 +2,11 @@
 	export let required = false;
 </script>
 
-<label
-	for={$$props.for}
-	class={`relative backlight typo-caption ${$$props.class ?? ''} ${
-		required
-			? 'backlight after:duration-750 group-focus-within:backlight-danger after:transition-all backlight-corner-br'
-			: ''
-	}`}
->
+<label for={$$props.for} class={`label ${$$props.class ?? ''}`} class:required>
 	<slot />
 	{#if required}
 		<slot name="requiredIndicator">
-			<span class="inline-block text-red-600 transition-all group-hover:animate-bounce">•</span>
+			<span class="label-required-indicator">•</span>
 		</slot>
 	{/if}
 </label>

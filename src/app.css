@@ -106,7 +106,6 @@
 	.text-gradient-rainbow {
 		@apply text-gradient text-transparent bg-gradient-rainbow;
 	}
-
 	.delay-animation-500 {
 		animation-delay: 500ms;
 	}
@@ -142,15 +141,6 @@
 }
 
 @layer base {
-	.feather polyline,
-	polygon,
-	path,
-	line,
-	rect,
-	circle {
-		stroke-dasharray: 100;
-	}
-
 	body {
 		@apply text-dark dark:text-light;
 	}
@@ -197,4 +187,97 @@
 	  .button.status-error {
 		@apply backlight-full animate-shake backlight-danger after:animate-shutdown backlight-full-sm direction-animation-reverse;
 	  }
+	  
 }
+
+@layer components {
+	/* Input components */
+	.input-container {
+		@apply backdrop-blur-sm hover:backdrop-blur-md relative inline-flex gap-2 items-center px-4 py-2 backlight backlight-corner-br rounded typo text-dark dark:text-light disabled:pointer-events-none disabled:opacity-50 backlight-for-focus
+	}
+	.input-container.invalid {
+		@apply backlight-danger bg-red-700/10;
+	}
+	.input-container.valid {
+		@apply backlight-success bg-lime-700/10;
+	}
+	.input-container.validity-unset {
+		@apply backlight-rainbow bg-dark-5 dark:bg-light-5;
+	}
+	.input {
+		@apply bg-transparent border-none outline-none spin-button-hidden out-of-range:animate-shake min-w-[10rem] invalid:text-red-400 placeholder:text-dark-2 dark:placeholder:text-light-2
+	}
+	.input-container > .help-text {
+		@apply absolute left-2 -bottom-5 typo-caption peer-in-range:text-dark-1 peer-out-of-range:text-red-400/80
+	}
+}
+
+@layer components {
+	.checkbox-container {
+		@apply relative flex items-center outline-none disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed
+	}
+	.checkbox {
+		@apply after:-inset-2 backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4 dark:bg-light-4
+	}
+	.checkbox.checked {
+		@apply group-focus-within:backlight-rainbow backlight-success bg-green-400/50;
+	}
+	.checkbox.unchecked {
+		@apply backlight-for-focus backlight-rainbow;
+	}
+	.checkbox-icon {
+		@apply stroke-2 stroke-dark-1 animate-draw;
+	}
+}
+
+@layer components {
+	.label {
+		@apply relative backlight typo-caption;
+	}
+	.label.required {
+		@apply backlight after:duration-700 group-focus-within:backlight-danger after:transition-all backlight-corner-br;
+	}
+	.label-required-indicator {
+		@apply inline-block text-red-500 transition-all group-hover:animate-bounce;
+	}
+}
+
+@layer components {
+	.icon {
+		@apply stroke-dark dark:stroke-light h-5 w-5
+	}
+}
+
+@layer components {
+	.dialog {
+		@apply outline-none relative shadow-2xl p-8 pt-10 rounded-sm bg-light dark:bg-dark backdrop:backdrop-blur-md
+	}
+}
+
+@layer components {
+	.popover-container {
+		@apply p-4 border rounded-sm shadow-2xl backdrop-blur-sm bg-dark-5 dark:bg-light-5
+	}
+}
+
+@layer components {
+	.select-trigger-multiple {
+		@apply flex gap-0.5
+	}
+	.tag {
+		@apply px-2 py-0.5 bg-gray-100 typo-caption rounded-[4px]
+	}
+	.select-option-container {
+		@apply inline-block overflow-auto rounded-sm shadow-xl outline-none bg-dark-5 backdrop-blur-sm dark:bg-light-5 max-h-96
+	}
+	.select-option {
+		@apply  relative outline-none px-4 py-2 backlight aria-selected:backlight-corner-r aria-selected:backlight-rainbow aria-selected:after:animate-glow aria-selected:after:scale-75 aria-selected:after:-translate-y-1 aria-disabled:opacity-50 aria-disabled:pointer-events-none
+	}
+	.select-option.active {
+		@apply bg-dark-2 dark:bg-light-2 dark:text-dark text-light
+	}
+	.select-option-item {
+		@apply group-aria-selected:backlight group-aria-selected:backlight-full group-aria-selected:backlight-success
+	}
+}
+

@@ -293,8 +293,8 @@
 		'x-circle',
 		'x-mark'
 	] as const;
-	export const icons = [...new Set([...heroIcons])];
-	export type IconName = typeof icons;
+	export const icons = [...new Set(heroIcons)];
+	export type IconName = (typeof icons)[0];
 </script>
 
 <script lang="ts">
@@ -302,7 +302,4 @@
 	export let name: IconName;
 </script>
 
-<CoreIcon
-	icon="heroicons:{name}"
-	class={$$props.class + ' ' + 'icon-group stroke-dark dark:stroke-light h-5 w-5'}
-/>
+<CoreIcon icon="heroicons:{name}" class={$$props.class + ' ' + ' icon'} />

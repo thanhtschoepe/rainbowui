@@ -10,47 +10,25 @@
 	$: id = id || generatedId;
 </script>
 
-<div
-	class="relative flex items-center outline-none group disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed"
-	{disabled}
->
-	<input
-		type="checkbox"
-		{id}
-		{name}
-		class="visually-hidden"
-		bind:checked
-		{disabled}
-		aria-labelledby="{id}-label"
-	/>
-	<label for={id} class="inline-flex items-center cursor-pointer">
-		<span
-			class="after:-inset-2 backlight transition-all duration-100 ease-out group-hover:scale-125 inline-block w-5 h-5 mr-2 rounded-[0.5rem] bg-dark-4 dark:bg-light-4"
-			class:checked
-			class:not-checked={!checked}
-		/>
-		{#if checked}
-			<span class="absolute inline-block">
-				<slot name="icon" {checked}>
-					<Icon name="check" class="stroke-2 stroke-dark-1 animate-draw" />
-				</slot>
-			</span>
-		{/if}
-		<span id="{id}-label" class="text-dark dark:text-light">
-			<slot name="label" for={id} />
+<button class="group checkbox-container" {disabled}>
+	<input type="checkbox" {id} {name} class="visually-hidden" bind:checked {disabled} inert />
+	<span class="checkbox" class:checked class:unchecked={!checked} />
+	{#if checked}
+		<span class="absolute inline-block">
+			<slot name="icon" {checked}>
+				<Icon name="check" class="checkbox-icon" />
+			</slot>
 		</span>
-	</label>
-</div>
+	{/if}
+
+	<slot name="label" {id}>
+		<label id="{id}-label" for={id} />
+	</slot>
+</button>
 
 <style lang="postcss">
-	.checked {
-		@apply group-focus-within:backlight-rainbow backlight-success bg-green-400/50;
-	}
-	.not-checked {
-		@apply backlight-for-focus backlight-rainbow;
-	}
 	.visually-hidden {
-		@apply absolute w-0 h-0 overflow-hidden;
+		@apply absolute w-0 h-0 overflow-hidden opacity-0 pointer-events-none;
 		clip: rect(0 0 0 0);
 	}
 </style>

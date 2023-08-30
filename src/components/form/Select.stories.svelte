@@ -1,9 +1,14 @@
 <script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Select from './Select.svelte';
-	import Input from './Input.svelte';
-	import Label from './Label.svelte';
-	import Icon from '../base/misc/Icon.svelte';
+
+	let list = [
+		{ id: 1, value: 'Banana', disabled: false },
+		{ id: 2, value: 'Strawberry', disabled: false },
+		{ id: 3, value: 'Peach', disabled: false },
+		{ id: 4, value: 'Kiwi', disabled: true },
+		{ id: 5, value: 'Durian', disabled: false }
+	];
 </script>
 
 <Meta title="form/Select" component={Select} />
@@ -16,12 +21,20 @@
 	name="Default"
 	args={{
 		value: 'Katelyn Rohan',
-		items: [
-			{ id: 1, value: 'Durward Reynolds', disabled: false },
-			{ id: 2, value: 'Kenton Towne', disabled: false },
-			{ id: 3, value: 'Therese Wunsch', disabled: false },
-			{ id: 4, value: 'Benedict Kessler', disabled: true },
-			{ id: 5, value: 'Katelyn Rohan', disabled: false }
-		]
+		items: list
+	}}
+/>
+<Story
+	name="multiple"
+	args={{
+		value: ['Strawberry', 'Peach'],
+		items: list
+	}}
+/>
+<Story
+	name="multiple"
+	args={{
+		value: ['Strawberry', 'Peach'],
+		items: list
 	}}
 />

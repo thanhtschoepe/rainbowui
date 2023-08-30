@@ -13,7 +13,7 @@
 			<Button slot="trigger" let:actions {actions}>Open me</Button>
 			<div slot="content">
 				<div class="flex gap-2">
-					{#each ['archive-box-arrow-down', 'anchor', 'arrow-left', 'arrow-trending-up', 'arrow-up-tray'] as icon}
+					{#each ['archive-box-arrow-down', 'arrow-up', 'arrow-left', 'arrow-trending-up', 'arrow-up-tray'] as icon}
 						<Button variant="icon">
 							<Icon name={icon} />
 						</Button>

@@ -62,10 +62,12 @@ export function createListBox(init: Partial<ListBox>) {
 
 	const select = (id: ListItem['id']) => {
 		// toggle selection on item click
-
 		if (state.multiple) {
-			state.selected.add(id);
-			if (state.selected.has(id)) state.selected.delete(id);
+			if (state.selected.has(id)) {
+				state.selected.delete(id);
+			} else {
+				state.selected.add(id);
+			}
 		} else {
 			state.selected.clear();
 			state.selected.add(id);
@@ -178,7 +180,6 @@ export function createListBox(init: Partial<ListBox>) {
 		ensureId(node, prefix);
 
 		const update = (options?: ItemOption) => {
-			console.log('Update was invoked');
 			const textValue = options?.value ?? extractTextualValue(node);
 			const disabled = options?.disabled ?? node.hasAttribute('disabled');
 
@@ -206,6 +207,7 @@ export function createListBox(init: Partial<ListBox>) {
 						disabled: found?.disabled
 					};
 				}).subscribe(({ disabled, selected }) =>
+					// TODO: consider if `inert` is a better choice
 					setAriaAttributes({ 'aria-disabled': disabled, 'aria-selected': selected })(node)
 				);
 
